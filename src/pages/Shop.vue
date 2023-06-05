@@ -63,7 +63,7 @@ import 'animate.css'
 // eslint-disable-next-line no-unused-vars
 import axios, {Axios as request} from "axios";
 export default {
-  name: "VoteContent",
+  name: "Shop",
   data(){
     return {
       changeBtn:'返回',

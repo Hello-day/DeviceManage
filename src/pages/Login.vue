@@ -24,7 +24,7 @@
           <!-- 密码框和用户名框 -->
           <div v-show="isShow" class="pwdArea">
             <div style="flex: 1;justify-content: center;display: flex;align-items: center">
-              <el-input class="username" v-model="loginUser.name" style="width: 165px"  placeholder="用户名"></el-input>
+              <el-input class="username" v-model="loginUser.userName" style="width: 165px"  placeholder="用户名"></el-input>
             </div>
             <div style="flex: 1;justify-content: center;display: flex;align-items: center">
               <el-input placeholder="密码"  v-model="loginUser.password" style="width: 165px" show-password></el-input>
@@ -165,7 +165,7 @@ export default {
     return{
 
       loginUser:{
-        name:"",
+        userName:"",
         password:""
       },
 
@@ -232,7 +232,7 @@ export default {
         return false
       }else{
         let user = {};
-        user.name = this.regUser.regUsername
+        user.userName = this.regUser.regUsername
         user.password = this.regUser.regPwd
         this.request.post("/user/register",user).then(res=>{
           if(res.code=="1"){

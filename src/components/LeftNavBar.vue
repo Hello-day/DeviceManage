@@ -24,6 +24,7 @@
                  <router-link :to="{name:'Fix'}" active-class="active" >维修管理</router-link>
                  <router-link :to="{name:'Storage'}" active-class="active" >库存管理</router-link>
                  <router-link :to="{name:'Obsolete'}" active-class="active" >报废管理</router-link>
+               <router-link :to="{name:'UserManage'}" active-class="active" >用户管理</router-link>
            </div>
              </transition>
              <transition

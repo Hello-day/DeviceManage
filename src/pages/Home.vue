@@ -58,29 +58,31 @@
 
        <div class="viewOfvoteData">
 
-        <div class="voteChannel" v-infinite-scroll="load" style="overflow:auto">
+        <div class="voteChannel" v-infinite-scroll="load"  >
+
+
           <!--写死测试-->
           <div  class="textArea" >
             <div class="headOfvoteData">
-              <span >test</span>
+              <span >售出订单数</span>
             </div>
-            <div class="voteChannel">
+            <div class="voteChannel" @click="voteContentApper(i)">
               <!--    现有投票-->
               <div class="voteNowHave">
                 <div>
                   用&nbsp;户&nbsp;信&nbsp;息&nbsp;:
-                  <span>test</span>
+                  <span>test2</span>
                 </div>
               </div>
             </div>
           </div>
           <!--写死测试-->
           <!--写死测试-->
-          <div  class="textArea" >
+          <div  class="textArea" style="background-image: radial-gradient(circle farthest-side at 10% 90%, #98e2ec8a, #f4d59d87 70%, #e7eda1b0);">
             <div class="headOfvoteData">
-              <span >test2</span>
+              <span >转借订单数</span>
             </div>
-            <div class="voteChannel">
+            <div class="voteChannel" @click="voteContentApper(i)">
               <!--    现有投票-->
               <div class="voteNowHave">
                 <div>
@@ -92,27 +94,52 @@
           </div>
           <!--写死测试-->
 
+
+
           <!--eslint-disable-next-line-->
-          <transition-group name="list-complete" tag="p" appear v-for="i in channel">
-            <div v-show="flagOftext" class="textArea" :key=i >
-              <div class="headOfvoteData">
-                <span >{{i.name}}</span>
-              </div>
-              <div class="voteChannel">
-                <!--    现有投票-->
-                <div class="voteNowHave"  @click="voteContentApper(i)">
-                  <div>
-                    现&nbsp;有&nbsp;投&nbsp;票&nbsp;项:
-                    <span>{{i.cnt}}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-
-
-          </transition-group>
         </div>
+         <div class="voteChannel" v-infinite-scroll="load"  >
+
+
+           <!--写死测试-->
+           <div  class="textArea" style="background-image: radial-gradient(circle farthest-side at 10% 90%, #98e2ec8a, #f4d59d87 70%, #e7eda1b0);">
+             <div class="headOfvoteData">
+               <span >维修订单数</span>
+             </div>
+             <div class="voteChannel" @click="voteContentApper(i)">
+               <!--    现有投票-->
+               <div class="voteNowHave">
+                 <div>
+                   用&nbsp;户&nbsp;信&nbsp;息&nbsp;:
+                   <span>test2</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+           <!--写死测试-->
+           <!--写死测试-->
+           <div  class="textArea" >
+             <div class="headOfvoteData">
+               <span >test2</span>
+             </div>
+             <div class="voteChannel" @click="voteContentApper(i)">
+               <!--    现有投票-->
+               <div class="voteNowHave">
+                 <div>
+                   用&nbsp;户&nbsp;信&nbsp;息&nbsp;:
+                   <span>test2</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+           <!--写死测试-->
+
+
+
+           <!--eslint-disable-next-line-->
+
+         </div>
 
        </div>
 
@@ -153,15 +180,6 @@ export default {
           prompt(res.msg)
         }
 
-      })
-    },
-
-    voteContentApper(i) {
-      this.$router.push({
-        name: "VoteContent",
-        query: {
-          id: i.id
-        }
       })
     },
 
@@ -210,21 +228,24 @@ export default {
 }
 
   .viewOfvoteData{
+    flex: 2;
     width: 100%;
     height: 500px;
-    background-color: #F5F7F9;
+    background-color: rgba(255,255,255,0.8);
     border-radius: 15px;
     display: flex;
-    flex-direction: column;
-    right: 0px;
+    flex-direction: row;
   }
 
   .voteChannel{
-    flex: 14;
+    flex: 2;
     width: 100%;
-    overflow-y: auto;
-    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
   }
+
   .voteChannel div{
     border-radius: 15px;
     margin-top: 20px;
@@ -240,12 +261,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 95%;
-  height: 100px;
+  width: 90%;
+  height: 200px;
   background-color: white;
-  margin-left: 30px;
+  margin-left: 25px;
+  margin-right: 15px;
   position: relative;
-  background-image: radial-gradient(circle farthest-side at 10% 90%, #98e2ec8a, #8e9cdd8a 70%, #e7eda1b0);
+  background-image: radial-gradient(circle farthest-side at 10% 90%, #98e2ec8a, #8e9cdd8a 60%, #e7eda1b0);
    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.05);
   }
 
@@ -263,12 +285,12 @@ export default {
 
   .voteNowHave{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 100%;
     width: 100%;
-    flex: 1;
+    flex: 2;
     font-size: 13px;
     font-weight: bold;
     color: #464646;

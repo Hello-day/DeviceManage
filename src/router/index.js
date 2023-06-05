@@ -68,6 +68,11 @@ export default new VueRouter({
                     name:'FixContent',
                     component: ()=> import("../pages/FixContent"),
                 },
+                {
+                    path:'UserManage',
+                    name:'UserManage',
+                    component: ()=> import("../pages/UserManage"),
+                },
             ]
         }
 
