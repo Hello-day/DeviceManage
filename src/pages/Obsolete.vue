@@ -16,14 +16,15 @@
       <div class="viewOfvoteData">
         <div class="voteChannel"  style="overflow:auto">
           <div class="textArea" >
+
             <div class="voteChannel">
               <!--    现有投票-->
-              <div class="voteNowHave" >
-                <template >
+              <div class="voteNowHave"  style="overflow-y:auto" >
+                <template>
                   <el-table
                       :data="tableData"
                       stripe
-                      style="width: 100% ;margin-top: 30px;">
+                      style="width: 100% ;margin-top: 30px;overflow-y:auto">
                     <el-table-column
                         prop="date"
                         label="设备号"
@@ -79,7 +80,51 @@ export default {
         date: '2016-05-01',
         name: 'iPhone13',
         address: '33'
-      }, {
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
+        date: '2016-05-01',
+        name: 'iPhone13',
+        address: '33'
+      },{
         date: '2016-05-03',
         name: 'iPhone14',
         address: '44'

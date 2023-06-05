@@ -10,6 +10,7 @@
   "dependencies": {
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",
+    "buefy": "^0.9.23",
     "core-js": "^3.6.5",
     "echarts": "^5.4.0",
     "element-ui": "^2.15.9",

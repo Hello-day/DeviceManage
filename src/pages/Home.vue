@@ -42,7 +42,8 @@
                 </div>
 
                 <!--            团队人数-->
-                <div class="dataBlocks" style="background-color:#E5EBFD">
+                <div class="dataBlocks" style="background-color:#edc28257"
+                >
                     <div style="flex: 1;width: 100%;height: 100%;display: flex;align-items: end;padding-left: 10px;font-weight: bold">
                         <span>团队人数</span>
                     </div>
@@ -127,44 +128,45 @@ import 'animate.css'
 import axios, {Axios as request} from "axios";
 export default {
   name: "Home",
-  data(){
+  data() {
     return {
-      channel:[],
-      count:0,
-      Num:'',
-      Item:'',
-      Voted:'',
-      ChannelId:'',
-      flagOfvoteCenter:false,
-      flagOftext:true,
-      flagOfvoteData:true,
-      flagOfvoteContent:true,
+      channel: [],
+      count: 0,
+      Num: '',
+      Item: '',
+      Voted: '',
+      ChannelId: '',
+      flagOfvoteCenter: false,
+      flagOftext: true,
+      flagOfvoteData: true,
+      flagOfvoteContent: true,
+      color:this.coloring()
     }
   },
-  methods:{
+  methods: {
 
-    list(){
-      this.request.get("/channel/list").then(res=>{
-        if(res.code == 1){
-          this.channel=res.data
-        }else{
+    list() {
+      this.request.get("/channel/list").then(res => {
+        if (res.code == 1) {
+          this.channel = res.data
+        } else {
           prompt(res.msg)
         }
 
       })
     },
 
-    voteContentApper(i){
+    voteContentApper(i) {
       this.$router.push({
-        name:"VoteContent",
-        query:{
-          id:i.id
+        name: "VoteContent",
+        query: {
+          id: i.id
         }
       })
     },
 
-    loadNum(){
-      this.request.get("/user/count").then(res=>{
+    loadNum() {
+      this.request.get("/user/count").then(res => {
         this.Num = res.data.cnt
         this.Item = res.data.numOfVote
         this.Voted = res.data.numOfPeople
@@ -175,11 +177,23 @@ export default {
 
   created() {
     this.list(),
-    
-    this.loadNum()
-    
+
+        this.loadNum()
+
+  },
+  randomRgb(item) {
+    let R = Math.floor(Math.random() * 255);
+    let G = Math.floor(Math.random() * 255);
+    let B = Math.floor(Math.random() * 255);
+    return {
+      width: (item.num / item.total * 100) + '%', // 进度条
+      background: 'rgb(' + R + ',' + G + ',' + B + ')'
+    };
   }
+
+
 }
+
 
 </script>
 
@@ -231,7 +245,7 @@ export default {
   background-color: white;
   margin-left: 30px;
   position: relative;
-  background-image: radial-gradient(circle farthest-side at 10% 90%, #87d7efb0, #e0d394 70%, #e7eda1b0);
+  background-image: radial-gradient(circle farthest-side at 10% 90%, #98e2ec8a, #8e9cdd8a 70%, #e7eda1b0);
    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.05);
   }
 

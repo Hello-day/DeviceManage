@@ -23,7 +23,7 @@
                   <el-table
                       :data="tableData"
                       stripe
-                      style="width: 100% ;margin-top: 30px;">
+                      style="width: 100% ;margin-top: 30px;overflow-y:auto">
                     <el-table-column
                         prop="date"
                         label="设备号"
