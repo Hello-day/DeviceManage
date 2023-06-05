@@ -67,8 +67,24 @@
               <!--    现有投票-->
               <div class="voteNowHave">
                 <div>
-                  现&nbsp;有&nbsp;投&nbsp;票&nbsp;项:
+                  用&nbsp;户&nbsp;信&nbsp;息&nbsp;:
                   <span>test</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--写死测试-->
+          <!--写死测试-->
+          <div  class="textArea" >
+            <div class="headOfvoteData">
+              <span >test2</span>
+            </div>
+            <div class="voteChannel">
+              <!--    现有投票-->
+              <div class="voteNowHave">
+                <div>
+                  用&nbsp;户&nbsp;信&nbsp;息&nbsp;:
+                  <span>test2</span>
                 </div>
               </div>
             </div>
