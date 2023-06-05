@@ -19,8 +19,8 @@
                >
              <div v-show="flagOfShow" style="width: 100%;position: absolute">
                  <router-link :to="{name:'Home'}" active-class="active" >主页</router-link>
-                 <router-link :to="{name:'Create'}" active-class="active" >购买管理</router-link>
-                 <router-link :to="{name:'Participate'}" active-class="active" >转借管理</router-link>
+                 <router-link :to="{name:'Shop'}" active-class="active" >购买管理</router-link>
+                 <router-link :to="{name:'Lend'}" active-class="active" >转借管理</router-link>
                  <router-link :to="{name:'Fix'}" active-class="active" >维修管理</router-link>
                  <router-link :to="{name:'Storage'}" active-class="active" >库存管理</router-link>
                  <router-link :to="{name:'Obsolete'}" active-class="active" >报废管理</router-link>

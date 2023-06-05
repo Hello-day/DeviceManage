@@ -5,7 +5,7 @@
       <!--          标题  -->
       <div class="headOfDataDisplay">
                 <span style="flex: 9;font-size: 18px;font-weight: bold">
-                维修管理
+                转借管理
                 </span>
 
       </div>
@@ -95,7 +95,7 @@ export default {
 
     votePageApper(i){
       this.$router.push({
-        name:"FixContent",
+        name:"LendContent",
         query:{
           voteItem:i  //变量名准备改
         }

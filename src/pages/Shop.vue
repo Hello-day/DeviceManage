@@ -15,7 +15,7 @@
     <div class="visualizationOfHome">
 
       <div class="viewOfvoteData">
-        <div class="voteChannel"  style="overflow:auto">
+        <div class="voteChannel"  style="overflow:auto" @click="votePageApper(1)">
           <div class="textArea" >
           <div class="voteChannel">
             <!--    现有投票-->
@@ -95,9 +95,9 @@ export default {
 
     votePageApper(i){
       this.$router.push({
-                name:"VoteResult",
+                name:"ShopContent",
                 query:{
-                  voteItem:i
+                  voteItem:i  //变量名准备改
                 }
             })
     },
@@ -215,21 +215,6 @@ export default {
 
     },
 
-    removeOption(item) {
-      var index = this.dynamicValidateForm.options.indexOf(item)
-      if (index !== -1) {
-        this.dynamicValidateForm.options.splice(index, 1)
-      }
-    },
-    addOption() {
-      this.dynamicValidateForm.options.push({
-        voteId:'',
-        optionName: ''
-      });
-    },
-    //load () {
-    //  this.count += 2
-    //},
     startCreate(){
 
       var n = this.changeBtn;
@@ -322,33 +307,6 @@ export default {
   transform: scale(1,1);
 }
 
-.voteEdit{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  height: 100%;
-  width: 100%;
-  flex: 1;
-  font-size: 13px;
-  font-weight: bold;
-  color: #464646;
-  padding: 0 15px
-}
-
-.voteArea{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 95%;
-  height: 530px;
-  background-color: white;
-  margin-left: 30px;
-  position: relative;
-  background-image: radial-gradient(circle farthest-side at 10% 90%, #FCEAED, #EDF3FF 70%, #EDF2FB);
-
-}
-
 .voteArea div{
   margin-top: 0px;
 }
@@ -407,18 +365,6 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-}
-
-.headOfvoteData{
-  height: 100%;
-  width: 100%;
-  flex: 2;
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  font-weight: bold;
-  font-size: 16px;
-  justify-content: center;
 }
 
 .voteChannel{

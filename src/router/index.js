@@ -28,15 +28,15 @@ export default new VueRouter({
                     component: ()=> import("../pages/Home"),
                 },
                 {
-                    path:'Participate',
-                    name:'Participate',
-                    component: ()=> import("../pages/Participate"),
+                    path:'Lend',
+                    name:'Lend',
+                    component: ()=> import("../pages/Lend"),
                 },
 
                 {
-                    path:'Create',
-                    name:'Create',
-                    component: ()=> import("../pages/Create"),
+                    path:'Shop',
+                    name:'Shop',
+                    component: ()=> import("../pages/Shop"),
                 },
                 {
                     path:'Fix',
@@ -54,19 +54,19 @@ export default new VueRouter({
                     component: ()=> import("../pages/Obsolete"),
                 },
                 {
-                    path:'VoteContent',
-                    name:'VoteContent',
-                    component: ()=> import("../pages/VoteContent"),
+                    path:'ShopContent',
+                    name:'ShopContent',
+                    component: ()=> import("../pages/ShopContent"),
                 },
                 {
-                    path:'VotePage',
-                    name:'VotePage',
-                    component: ()=> import("../pages/VotePage"),
+                    path:'LendContent',
+                    name:'LendContent',
+                    component: ()=> import("../pages/LendContent"),
                 },
                 {
-                    path:'VoteResult',
-                    name:'VoteResult',
-                    component: ()=> import("../pages/VoteResult"),
+                    path:'FixContent',
+                    name:'FixContent',
+                    component: ()=> import("../pages/FixContent"),
                 },
             ]
         }

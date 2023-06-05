@@ -6,8 +6,8 @@
       <div class="headOfDataDisplay">
         <el-page-header @back="goBack" content="">
         </el-page-header>
-                <span style="flex: 9;font-size: 18px;font-weight: bold">
-                详细信息
+        <span style="flex: 9;font-size: 18px;font-weight: bold">
+                维修详细信息
                 </span>
       </div>
       <!--            数据具体展示-->
@@ -42,15 +42,15 @@
                     </el-table-column>
                     <el-table-column
                         prop="address"
-                        label="购入数量">
+                        label="维修人员">
                     </el-table-column>
                     <el-table-column
                         prop="cost"
-                        label="购买经费">
+                        label="维修日期">
                     </el-table-column>
                     <el-table-column
                         prop="people"
-                        label="经手人员">
+                        label="维修经费">
                     </el-table-column>
                   </el-table>
                 </template>
@@ -74,8 +74,7 @@ import 'animate.css'
 // eslint-disable-next-line no-unused-vars
 import axios, {Axios as request} from "axios";
 export default {
-  name: "VoteContent",
-
+  name: "LendContent",
   data(){
     return {
       tableData: [{
@@ -110,35 +109,13 @@ export default {
       this.$router.go(-1)
     },
 
-    votePageApper(i){
-      this.request.get("/usvt/check/"+i.id).then(res=>{  //查询是否投过票，没投票则进入投票页面
-            if(res.code == 1){
-              this.$router.push({
-                name:"VotePage",
-                query:{
-                  voteItem:i
-                }
-              })
-            }else if(res.code == 0){
-              this.$router.push({
-                name:"VoteResult",
-                query:{
-                  voteItem:i
-                }
-              })
-            }
-
-
-      })
-    },
-    
     list(){
       this.request.get("/vote/list/"+this.Channel.id).then(res=>{
         this.vote = res.data
         console.log(this.vote)
         console.log(this.ChannelId)
       })
-      
+
     },
 
   },
@@ -216,13 +193,6 @@ export default {
   padding: 0 15px
 }
 
-.voteNowHave:hover{
-  cursor: pointer;
-  background-color: rgba(231,234,237,0.7);
-  transform: scale(0,0);
-  width: 99%;
-  border-radius: 10px;
-}
 
 .dataDisplayOfHome{
   flex: 2;
