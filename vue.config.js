@@ -5,6 +5,8 @@ module.exports = {
             entry: 'src/main.js',
         },
     },
+
+
     // 关闭语法检查
     lintOnSave: false
 
@@ -21,30 +23,26 @@ module.exports = {
     devServer: {
         proxy: {
             '/user':{
-                target: 'http://localhost:8080',
+                target: 'http://localhost:8081',
                 changeOrigin: true,
                 ['^/user']:'',
             },
             '/channel':{
-                target: 'http://localhost:8080',
+                target: 'http://localhost:8081',
                 changeOrigin: true,
                 ['^/channel']:'',
             },
             '/vote':{
-                target: 'http://localhost:8080',
+                target: 'http://localhost:8081',
                 changeOrigin: true,
                 ['^/vote']:'',
             },
             '/option':{
-                target: 'http://localhost:8080',
+                target: 'http://localhost:8081',
                 changeOrigin: true,
                 ['^/option']:'',
             },
-            '/usvt':{
-                target: 'http://localhost:8080',
-                changeOrigin: true,
-                ['^/usvt']:'',
-            },
+
         }
     },
 

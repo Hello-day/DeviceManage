@@ -38,12 +38,24 @@
                    <el-tooltip class="item" effect="dark"  content="主页" placement="right">
                    <router-link style="font-size: 20px" :to="{name:'Home'}"  active-class="active2"><li class="el-icon-s-home"></li></router-link>
                    </el-tooltip>
-                   <el-tooltip class="item" effect="dark" content="我发起的投票" placement="right">
-                   <router-link style="font-size: 20px" :to="{name:'Create'}" active-class="active2"><li class="el-icon-coffee-cup"></li></router-link>
+                   <el-tooltip class="item" effect="dark" content="购买管理" placement="right">
+                   <router-link style="font-size: 20px" :to="{name:'Shop'}" active-class="active2"><li class="el-icon-shopping-cart-full"></li></router-link>
                    </el-tooltip>
-                    <el-tooltip class="item" effect="dark" content="我参与的投票" placement="right">
-                   <router-link style="font-size: 20px" :to="{name:'Participate'}"  active-class="active2"><li class="el-icon-s-custom"></li></router-link>
+                    <el-tooltip class="item" effect="dark" content="转借管理" placement="right">
+                   <router-link style="font-size: 20px" :to="{name:'Lend'}"  active-class="active2"><li class="el-icon-s-promotion"></li></router-link>
                    </el-tooltip>
+                 <el-tooltip class="item" effect="dark" content="维修管理" placement="right">
+                   <router-link style="font-size: 20px" :to="{name:'Fix'}"  active-class="active2"><li class="el-icon-s-operation"></li></router-link>
+                 </el-tooltip>
+                 <el-tooltip class="item" effect="dark" content="库存管理" placement="right">
+                   <router-link style="font-size: 20px" :to="{name:'Storage'}"  active-class="active2"><li class="el-icon-box"></li></router-link>
+                 </el-tooltip>
+                 <el-tooltip class="item" effect="dark" content="报废管理" placement="right">
+                   <router-link style="font-size: 20px" :to="{name:'Obsolete'}"  active-class="active2"><li class="el-icon-delete"></li></router-link>
+                 </el-tooltip>
+                 <el-tooltip class="item" effect="dark" content="用户管理" placement="right">
+                   <router-link style="font-size: 20px" :to="{name:'UserManage'}"  active-class="active2"><li class="el-icon-user"></li></router-link>
+                 </el-tooltip>
 
                </div>
                </transition>

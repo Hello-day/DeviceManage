@@ -73,6 +73,11 @@ export default new VueRouter({
                     name:'UserManage',
                     component: ()=> import("../pages/UserManage"),
                 },
+                {
+                    path:'DeviceContent',
+                    name:'DeviceContent',
+                    component: ()=> import("../pages/DeviceContent"),
+                },
             ]
         }
 

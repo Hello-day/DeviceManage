@@ -12,7 +12,6 @@
 
 
     <div class="visualizationOfHome">
-
       <div class="viewOfvoteData">
         <div class="voteChannel"  style="overflow:auto">
           <div class="textArea" >
@@ -41,6 +40,17 @@
                     <el-table-column
                         prop="people"
                         label="设备状态">
+                    </el-table-column>
+                    <el-table-column align="center" fixed="right" label="操作" width="150">
+                      <template slot-scope="scope">
+                        <el-button
+                            @click="handleClick(scope.row)"
+                            type="text"
+                            size="small"
+                        >查看详情</el-button>
+                        <el-button  type="text"
+                                    size="small" style="color:#e98484"  @click="delete(scope.$index)">删除</el-button>
+                      </template>
                     </el-table-column>
                   </el-table>
                 </template>
@@ -95,6 +105,34 @@ export default {
     }
   },
   methods:{
+
+    delete(i){   //删除
+      // this.myVote.splice(i-1, 1);  //从数组中删除，使这项不显示，应该放到删除成功下面，此处为测试用
+      this.request.get('/vote/delete/'+ i.id).then(res=>{  //路由没配
+        if(res.code=="1"){
+          this.$message.success("删除成功！")
+          // this.myVote.splice(i-1, 1);
+          this.request.get("/vote/mine").then(res => {
+            this.myVote = res.data
+          })
+        }
+        else{
+          this.$message.error("删除失败！")
+        }
+      })
+
+    },
+
+    handleClick(row) {
+      this.$router.push({
+        name: "DeviceContent",
+        params: {
+          taskId: row.taskId,
+          times: this.times,
+        },
+      });
+    },
+
     goBack() {
       this.$router.go(-1)
     },

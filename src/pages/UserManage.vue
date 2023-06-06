@@ -23,35 +23,28 @@
 
                 <div style="margin: auto">
 
-                  <el-button @click="editAll">批量编辑</el-button>
-                  <el-button @click="submit">提交</el-button>
-                  <el-button @click="addAll">批量增加</el-button>
-                  <el-button @click="delectAll">批量删除</el-button>
+                  <el-button round icon="el-icon-edit" @click="editAll">批量编辑</el-button>
+                  <el-button round icon = "el-icon-finished" @click="submit">提交</el-button>
+                  <el-button round icon = "el-icon-plus" @click="addAll">批量增加</el-button>
+                  <el-button round icon="el-icon-delete" @click="delectAll">批量删除</el-button>
                 </div>
 
                   <el-table :data="tabledatas" border @selection-change="handleSelectionChange" style="margin-top: 10px">
                     <el-table-column type="selection"></el-table-column>
-                    <el-table-column label="用户名">
+                    <el-table-column label="用户ID">
                       <template slot-scope="scope">
-                    <span v-if="scope.row.show">
-                        <el-input size="mini" placeholder="请输入内容" v-model="scope.row.title"></el-input>
-                    </span>
-                        <span v-else>{{scope.row.title}}</span>
+                        <span>{{scope.row.title}}</span>
                       </template>
                     </el-table-column>
-                    <el-table-column label="密码">
+                    <el-table-column label="用户名">
                       <template slot-scope="scope">
-                    <span v-if="scope.row.show">
-                        <el-input size="mini" placeholder="请输入内容" v-model="scope.row.text"></el-input>
-                    </span>
-                        <span v-else>{{scope.row.text}}</span>
+                        <span>{{scope.row.text}}</span>
                       </template>
                     </el-table-column>
                     <el-table-column label="操作">
                       <template slot-scope="scope">
-                        <el-button @click="edit(scope.row,scope.$index)">{{scope.row.show?'保存':"修改密码"}}</el-button>
-                        <el-button @click="cope(scope.row,scope.$index)">复制</el-button>
-                        <el-button @click="delect(scope.$index)">删除</el-button>
+                        <el-button round @click="open">修改密码</el-button>
+                        <el-button round type="danger" plain @click="delect(scope.row.title,scope.$index)">删除用户</el-button>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -72,12 +65,13 @@ export default {
     return {
       tabledatas: [],
       multipleSelection: [],
+      user:[],
     }
   },
   created() {
     this.tabledatas = [
-      { title: 'test', text: 's111sssa' },
-      { title: 'test2', text: 'ss222ssa' },
+      { title: '1', text: 'admin' },
+      { title: '2', text: 'ss222ssa' },
     ]
     this.tabledatas.map(i => {
       i.show = false
@@ -85,30 +79,55 @@ export default {
     })
   },
   methods: {
-    edit(row, index) {
-      row.show = row.show ? false : true
-      Vue.set(this.tabledatas, index, row)
-      // 修改后保存
-    },
-    editAll() {
-      this.tabledatas.map((i, index) => {
-        i.show = true
-        Vue.set(this.tabledatas, index, i)
+    table(){
+      this.request.get("/user/check").then(res=>{
+        if(res.code == 1){
+          this.myParticipate=res.data
+        }else{
+          prompt(res.msg)
+        }
+
+        // console.log(this.channel)
       })
+      console.log(this.myParticipate)
     },
+    open() {
+      this.$prompt('请输入新密码', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(({ value }) => {
+        this.$message({
+          type: 'success',
+          message: '新密码是: ' + value
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        });
+      });
+    },
+
     submit() {
       this.tabledatas.map((i, index) => {
         i.show = false
         Vue.set(this.tabledatas, index, i)
       })
     },
-    // 单个复制
-    cope(val, index) {
-      this.tabledatas.splice(index, 0,JSON.parse(JSON.stringify(val)))
-    },
+
     // 单个删除
-    delect(index) {
+    delect(userId,index) {
       this.tabledatas.splice(index, 1)
+
+        this.request.get('/user/delete/'+ userId).then(res=>{  //路由没配
+          if(res.code=="1"){
+            this.$message.success("删除成功！")
+          }
+          else{
+            this.$message.error("删除失败！")
+          }
+        })
+
     },
     //批量新增
     addAll() {
@@ -149,7 +168,6 @@ export default {
 </script>
 
 <style scoped>
-
 
 .mainBodyOfHome{
   display: flex;
