@@ -12,18 +12,13 @@
 
 
     <div class="visualizationOfHome">
-
       <div class="viewOfvoteData">
         <div class="voteChannel"  style="overflow:auto">
           <div class="textArea" >
-
             <div class="voteChannel">
-
               <div class="voteNowHave"  style="overflow-y:auto" >
-
                 <div style="margin: auto">
-
-                  <el-button round icon="el-icon-edit" @click="editAll">批量编辑</el-button>
+                  <el-button round icon="el-icon-edit">批量编辑</el-button>
                   <el-button round icon = "el-icon-finished" @click="submit">提交</el-button>
                   <el-button round icon = "el-icon-plus" @click="addAll">批量增加</el-button>
                   <el-button round icon="el-icon-delete" @click="delectAll">批量删除</el-button>
@@ -31,20 +26,14 @@
 
                   <el-table :data="tabledatas" border @selection-change="handleSelectionChange" style="margin-top: 10px">
                     <el-table-column type="selection"></el-table-column>
-                    <el-table-column label="用户ID">
-                      <template slot-scope="scope">
-                        <span>{{scope.row.title}}</span>
-                      </template>
+                    <el-table-column prop="userId" label="用户ID">
                     </el-table-column>
-                    <el-table-column label="用户名">
-                      <template slot-scope="scope">
-                        <span>{{scope.row.text}}</span>
-                      </template>
+                    <el-table-column prop="userName" label="用户名">
                     </el-table-column>
                     <el-table-column label="操作">
                       <template slot-scope="scope">
-                        <el-button round @click="open">修改密码</el-button>
-                        <el-button round type="danger" plain @click="delect(scope.row.title,scope.$index)">删除用户</el-button>
+                        <el-button round @click="changePWD">修改密码</el-button>
+                        <el-button round type="danger" plain @click="delect(scope.row.userId,scope.$index)">删除用户</el-button>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -56,6 +45,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -69,10 +59,11 @@ export default {
     }
   },
   created() {
-    this.tabledatas = [
-      { title: '1', text: 'admin' },
-      { title: '2', text: 'ss222ssa' },
-    ]
+    this.table()
+   // this.tabledatas = [
+    //  { title: '1', text: 'admin' },
+   //   { title: '2', text: 'ss222ssa' },
+   // ]
     this.tabledatas.map(i => {
       i.show = false
       return i
@@ -80,18 +71,13 @@ export default {
   },
   methods: {
     table(){
-      this.request.get("/user/check").then(res=>{
-        if(res.code == 1){
-          this.myParticipate=res.data
-        }else{
-          prompt(res.msg)
-        }
-
-        // console.log(this.channel)
+      this.request.get("/user/list").then(res=>{
+          this.tabledatas=res.data
       })
-      console.log(this.myParticipate)
+      console.log(this.tabledatas)
     },
-    open() {
+
+    changePWD() {
       this.$prompt('请输入新密码', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -118,7 +104,6 @@ export default {
     // 单个删除
     delect(userId,index) {
       this.tabledatas.splice(index, 1)
-
         this.request.get('/user/delete/'+ userId).then(res=>{  //路由没配
           if(res.code=="1"){
             this.$message.success("删除成功！")
@@ -129,6 +114,7 @@ export default {
         })
 
     },
+    
     //批量新增
     addAll() {
       if (this.multipleSelection.length == 0) {
@@ -163,6 +149,7 @@ export default {
       this.multipleSelection = val;
     }
   },
+
 }
 
 </script>
