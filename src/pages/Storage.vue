@@ -49,7 +49,7 @@
                             size="small"
                         >查看详情</el-button>
                         <el-button  type="text"
-                                    size="small" style="color:#e98484"  @click="delect(scope.row.deviceId,scope.$index)">删除</el-button>
+                                    size="small" style="color:#e98484"  @click="delect(scope.row.deviceId,scope.$index)">报废</el-button>
                       </template>
                     </el-table-column>
                   </el-table>

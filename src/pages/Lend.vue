@@ -7,38 +7,79 @@
                 <span style="flex: 9;font-size: 18px;font-weight: bold">
                 转借管理
                 </span>
+        <span class= "IconArea" style="flex: 2;font-size: 18px;font-weight: bold;color: #4E5C72;justify-content: end;display: flex">
+                   <el-button round size="medium"  @click="newFix()"  ref='btn1'>新增转借</el-button>
+        </span>
 
       </div>
 
     </div>
 
-
-
     <div class="visualizationOfHome">
       <div class="viewOfvoteData">
         <div class="voteChannel"  style="overflow:auto">
-          <div class="textArea" >
+          <div class="textArea"  >
             <div class="voteChannel">
-              <!--    现有投票-->
-              <div class="voteNowHave"  style="overflow-y:auto" >
+              <div v-show="flagOfstartCreate" class="voteArea" :key="100">
+                <div class="headOfvoteData">
+                  <span >新增转借记录</span>
+                </div>
+
+                <div class="voteCreate">
+                  <!--    现有投票-->
+                  <div  class="voteEdit" >
+
+                    <el-form ref="dynamicValidateForm" :model="dynamicValidateForm" label-width="100px">
+
+                      <el-form-item  label="经办人员" >
+                        <el-select v-model="dynamicValidateForm.channelName" placeholder="请选择经办人员">
+                          <!--eslint-disable-next-line-->
+                          <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
+                        </el-select>
+                      </el-form-item>
+                      <el-form-item  label="设备名" >
+                        <el-select v-model="dynamicValidateForm.channelName" placeholder="请选择设备名">
+                          <!--eslint-disable-next-line-->
+                          <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
+                        </el-select>
+                      </el-form-item>
+
+                      <el-form-item label="借出日期">
+                        <el-col :span="11">
+                          <el-date-picker type="date" placeholder="日期" v-model="dynamicValidateForm.date1" style="width: 100%;"></el-date-picker>
+                        </el-col>
+                      </el-form-item>
+
+                      <el-form-item>
+                        <el-button type="primary" @click="submitForm()">立即创建</el-button>
+                        <el-button>取消</el-button>
+                      </el-form-item>
+
+                    </el-form>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="voteNowHave"  style="overflow-y:auto" v-show="flagOftext" v-if="update">
                 <template>
                   <el-table
                       :data="tabledatas"
                       stripe
-                      style="width: 100% ;margin-top: 30px;overflow-y:auto">
+                      style="width: 100% ;margin-top: 30px;overflow-y:auto" >
                     <el-table-column
-                        prop="deviceId"
-                        label="设备号"
+                        prop="recordId"
+                        label="记录号"
                         width="180">
                     </el-table-column>
                     <el-table-column
-                        prop="deviceName"
+                        prop="deviceId"
                         label="设备名"
                         width="180">
                     </el-table-column>
                     <el-table-column
                         prop="lendDate"
-                        label="借出日期">
+                        label="转借日期">
                     </el-table-column>
                     <el-table-column
                         prop="returnDate"
@@ -67,12 +108,50 @@ export default {
   name: "Lend",
   data(){
     return {
-     tabledatas:[]
+
+      changeBtn:'返回',
+      flagOftext:true,
+      flagOfstartCreate:false,
+      update:true,
+
+      dynamicValidateForm: {
+        options: [{
+          voteId:'',
+          optionName: ''
+        }],
+        option1: '',
+        date1:'',
+        name: '',
+        channelName: '',
+        description: ''
+      },
+      tabledatas:[]
     }
   },
   methods:{
+    submitForm() {
+
+      this.request.post('/vote/add/', this.dynamicValidateForm).then(res=>{
+        if(res.code=="1"){
+          this.$message.success("提交成功！")
+          this.vote_Id = res.data
+          console.log(this.vote_Id)
+          this.dynamicValidateForm.options.unshift({
+            voteId:'',
+            optionName: ''
+          })
+        }
+        else{
+          this.$message.error("提交失败！")
+        }
+        this.request.get("/vote/mine").then(res => {
+          this.myVote = res.data
+        })
+      })
+
+    },
     table(){
-      this.request.get("/scrap/list").then(res=>{
+      this.request.get("/lend/list").then(res=>{//路由
         this.tabledatas=res.data
       })
       // console.log(this.tabledatas)
@@ -91,7 +170,20 @@ export default {
 
     },
 
+    newFix(){
+      var n = this.changeBtn;
+      this.changeBtn = this.$refs.btn1.$el.innerText;
+      this.$refs.btn1.$el.innerText = n;
+      this.flagOftext = !this.flagOftext;
+      this.flagOfstartCreate = !this.flagOfstartCreate;
+      //刷新数据
+      this.update = false;
+      this.$nextTick(() => {
+        this.update = true
+      })
+    },
   },
+
   created() {
     this.table()
   }
@@ -136,8 +228,6 @@ export default {
   transform: scale(1.01,1.01);
 }
 
-
-
 .liList li{
   text-align: center;
 }
@@ -149,7 +239,6 @@ export default {
 
 
 .voteNowHave{
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -205,6 +294,31 @@ export default {
 
 .voteChannel div:hover{
   transform: scale(1,1);
+}
+
+.voteArea{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  height: 350px;
+  background-color: rgb(0,0,0,0);
+  margin-left: 30px;
+  margin-top: 100px;
+  position: relative;
+}
+
+
+.headOfvoteData{
+  height: 100%;
+  width: 100%;
+  flex: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  font-weight: bold;
+  font-size: 16px;
+  justify-content: center;
 }
 
 

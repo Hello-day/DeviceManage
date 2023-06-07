@@ -15,17 +15,11 @@
 
     </div>
 
-
-
     <div class="visualizationOfHome">
       <div class="viewOfvoteData">
         <div class="voteChannel"  style="overflow:auto">
-
-
           <div class="textArea"  >
-
             <div class="voteChannel">
-
               <div v-show="flagOfstartCreate" class="voteArea" :key="100">
                 <div class="headOfvoteData">
                   <span >新增维修记录</span>
@@ -46,10 +40,17 @@
                           <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
                         </el-select>
                       </el-form-item>
+                      <el-form-item  label="设备名" >
+                        <el-select v-model="dynamicValidateForm.channelName" placeholder="请选择设备名">
+                          <!--eslint-disable-next-line-->
+                          <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
+                        </el-select>
+                      </el-form-item>
 
-
-                      <el-form-item label="详细描述">
-                        <el-input type="textarea" v-model="dynamicValidateForm.description"></el-input>
+                      <el-form-item label="维修日期">
+                        <el-col :span="11">
+                          <el-date-picker type="date" placeholder="日期" v-model="dynamicValidateForm.date1" style="width: 100%;"></el-date-picker>
+                        </el-col>
                       </el-form-item>
 
                       <el-form-item>
@@ -63,7 +64,7 @@
                 </div>
               </div>
 
-              <div class="voteNowHave"  style="overflow-y:auto" v-show="flagOftext" >
+              <div class="voteNowHave"  style="overflow-y:auto" v-show="flagOftext" v-if="update">
                 <template>
                   <el-table
                       :data="tabledatas"
@@ -110,6 +111,7 @@ export default {
   name: "Lend",
   data(){
     return {
+
       changeBtn:'返回',
       flagOftext:true,
       flagOfstartCreate:false,
@@ -121,7 +123,7 @@ export default {
           optionName: ''
         }],
         option1: '',
-
+        date1:'',
         name: '',
         channelName: '',
         description: ''
@@ -130,6 +132,27 @@ export default {
     }
   },
   methods:{
+    submitForm() {
+
+      this.request.post('/vote/add/', this.dynamicValidateForm).then(res=>{
+        if(res.code=="1"){
+          this.$message.success("提交成功！")
+          this.vote_Id = res.data
+          console.log(this.vote_Id)
+          this.dynamicValidateForm.options.unshift({
+            voteId:'',
+            optionName: ''
+          })
+        }
+        else{
+          this.$message.error("提交失败！")
+        }
+        this.request.get("/vote/mine").then(res => {
+          this.myVote = res.data
+        })
+      })
+
+    },
     table(){
       this.request.get("/repair/list").then(res=>{//路由
         this.tabledatas=res.data
@@ -156,6 +179,11 @@ export default {
       this.$refs.btn1.$el.innerText = n;
       this.flagOftext = !this.flagOftext;
       this.flagOfstartCreate = !this.flagOfstartCreate;
+      //刷新数据
+      this.update = false;
+      this.$nextTick(() => {
+        this.update = true
+      })
     },
   },
 
@@ -202,8 +230,6 @@ export default {
 .voteChannel div:hover{
   transform: scale(1.01,1.01);
 }
-
-
 
 .liList li{
   text-align: center;
