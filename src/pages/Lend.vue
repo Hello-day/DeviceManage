@@ -34,13 +34,13 @@
                       <el-form-item  label="经办人员" >
                         <el-select v-model="dynamicValidateForm.channelName" placeholder="请选择经办人员">
                           <!--eslint-disable-next-line-->
-                          <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
+                          <el-option v-for="i in userlist" :label="i.userName" :value="i.userName"></el-option>
                         </el-select>
                       </el-form-item>
                       <el-form-item  label="设备名" >
                         <el-select v-model="dynamicValidateForm.channelName" placeholder="请选择设备名">
                           <!--eslint-disable-next-line-->
-                          <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
+                          <el-option v-for="i in devicelist" :label="i.name" :value="i.deviceName"></el-option>
                         </el-select>
                       </el-form-item>
 
@@ -125,7 +125,10 @@ export default {
         channelName: '',
         description: ''
       },
-      tabledatas:[]
+      tabledatas:[],
+      userlist:[],
+      devicelist:[],
+
     }
   },
   methods:{
@@ -154,7 +157,13 @@ export default {
       this.request.get("/lend/list").then(res=>{//路由
         this.tabledatas=res.data
       })
-      // console.log(this.tabledatas)
+
+      this.request.get("/user/list").then(res=>{//路由
+        this.userlist=res.data
+      })
+      this.request.get("/device/list").then(res=>{//路由
+        this.devicelist=res.data
+      })
     },
 
     delect(deviceId,index) {

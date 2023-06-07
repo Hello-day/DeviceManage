@@ -5,7 +5,7 @@
 <!--          标题  -->
             <div class="headOfDataDisplay">
                 <span style="flex: 9;font-size: 18px;font-weight: bold">
-                设备管理系统
+                欢迎来到设备管理系统
                 </span>
                 <span style="flex: 2;font-size: 12px;font-weight: bold;color: #4E5C72;justify-content: end;display: flex">
 
@@ -60,86 +60,54 @@
 
         <div class="voteChannel" v-infinite-scroll="load"  >
 
-
-          <!--写死测试-->
-          <div  class="textArea" >
-            <div class="headOfvoteData">
-              <span >售出订单数</span>
-            </div>
-            <div class="voteChannel" @click="voteContentApper(i)">
-              <!--    现有投票-->
-              <div class="voteNowHave">
-                <div>
-                  用&nbsp;户&nbsp;信&nbsp;息&nbsp;:
-                  <span>test2</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--写死测试-->
           <!--写死测试-->
           <div  class="textArea" style="background-image: radial-gradient(circle farthest-side at 10% 90%, #98e2ec8a, #f4d59d87 70%, #e7eda1b0);">
             <div class="headOfvoteData">
-              <span >转借订单数</span>
+              <span >待归还订单</span>
             </div>
-            <div class="voteChannel" @click="voteContentApper(i)">
+            <div class="voteChannel">
               <!--    现有投票-->
-              <div class="voteNowHave">
-                <div>
-                  用&nbsp;户&nbsp;信&nbsp;息&nbsp;:
-                  <span>test2</span>
-                </div>
+              <div class="voteNowHave" style="margin-top: -45px;margin-bottom: 10px;">
+                <template >
+                  <el-table
+                      :data="tabledatas"
+                      stripe
+                      style="width: 100% ;margin-top: 30px;overflow-y:auto">
+                    <el-table-column
+                        prop="deviceId"
+                        label="记录号"
+                        width="180">
+                    </el-table-column>
+                    <el-table-column
+                        prop="deviceName"
+                        label="设备名"
+                        width="180">
+                    </el-table-column>
+                    <el-table-column
+                        prop="quantity"
+                        label="借出日期">
+                    </el-table-column>
+                    <el-table-column label="操作" width="150">
+                      <template slot-scope="scope">
+                        <el-button
+                            @click="handleClick(scope.row)"
+                            type="text"
+                            size="small"
+                        >点击归还</el-button>
+
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </template>
+
               </div>
             </div>
           </div>
           <!--写死测试-->
 
 
-
-          <!--eslint-disable-next-line-->
-
         </div>
-         <div class="voteChannel" v-infinite-scroll="load"  >
 
-
-           <!--写死测试-->
-           <div  class="textArea" style="background-image: radial-gradient(circle farthest-side at 10% 90%, #98e2ec8a, #f4d59d87 70%, #e7eda1b0);">
-             <div class="headOfvoteData">
-               <span >维修订单数</span>
-             </div>
-             <div class="voteChannel" @click="voteContentApper(i)">
-               <!--    现有投票-->
-               <div class="voteNowHave">
-                 <div>
-                   用&nbsp;户&nbsp;信&nbsp;息&nbsp;:
-                   <span>test2</span>
-                 </div>
-               </div>
-             </div>
-           </div>
-           <!--写死测试-->
-           <!--写死测试-->
-           <div  class="textArea" >
-             <div class="headOfvoteData">
-               <span >test2</span>
-             </div>
-             <div class="voteChannel" @click="voteContentApper(i)">
-               <!--    现有投票-->
-               <div class="voteNowHave">
-                 <div>
-                   用&nbsp;户&nbsp;信&nbsp;息&nbsp;:
-                   <span>test2</span>
-                 </div>
-               </div>
-             </div>
-           </div>
-           <!--写死测试-->
-
-
-
-           <!--eslint-disable-next-line-->
-
-         </div>
 
        </div>
 
@@ -225,64 +193,52 @@ export default {
 }
 
   .viewOfvoteData{
-    flex: 2;
+    flex: 1;
     width: 100%;
     height: 500px;
     background-color: rgba(255,255,255,0.8);
     border-radius: 15px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
 
   .voteChannel{
-    flex: 2;
+    flex: 1;
     width: 100%;
     height: 100%;
     display: flex;
+    margin-top: -15px;      /*改大框位置*/
     justify-content: center;
     flex-direction: column;
   }
 
   .voteChannel div{
     border-radius: 15px;
-    margin-top: 20px;
     transition: all 0.5s;
   }
 
-  .voteChannel div:hover{
-    transform: scale(1.01,1.01);
-  }
-
-
- .textArea{
+ .textArea{   /*渐变色大框*/
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90%;
-  height: 200px;
+  height: 440px;
   background-color: white;
-  margin-left: 25px;
-  margin-right: 15px;
+  margin-left: 45px;
   position: relative;
   background-image: radial-gradient(circle farthest-side at 10% 90%, #98e2ec8a, #8e9cdd8a 60%, #e7eda1b0);
-   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.05);
+   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.05);
   }
 
-  .textArea div{
-  margin-top: 0px;
-  }
 
   .liList li{
     text-align: center;
   }
-  .liList li:hover{
-    color: #257B5E;
-    background-color: rgba(37,123,94,0.1);
-  }
+
 
   .voteNowHave{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
@@ -294,23 +250,30 @@ export default {
     padding: 0 15px
   }
 
-  .voteNowHave:hover{
-    cursor: pointer;
-    background-color: rgba(231,234,237,0.7);
-    transform: scale(0,0);
-    width: 99%;
-    border-radius: 10px;
 
-  }
+.headOfvoteData{  /*改标题文字属性*/
+  height: 100%;
+  width: 100%;
+  flex: 2;
+  display: flex;
+  align-items: center;
+  margin-top: -25px;
+  font-weight: bold;
+  font-size: 16px;
+  justify-content: center;
+}
+
+  /*以下都是头部，不用看*/
     .dataDisplayOfHome{
-        flex: 2;
+        flex: 1;
         height: 100%;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 0 50px;
+        padding: 0 30px;
     }
+
     .visualizationOfHome{
         flex: 1;
         height: 100%;
@@ -335,7 +298,8 @@ export default {
         justify-content: center;
         gap: 20px;
     }
-    .dataBlocks{
+
+    .dataBlocks{ /*头部数据块*/
         flex: 1;
         width: 100%;
         height: 80%;
@@ -348,17 +312,6 @@ export default {
     }
     
 
-.headOfvoteData{
-  height: 100%;
-  width: 100%;
-  flex: 2;
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  font-weight: bold;
-  font-size: 16px;
-  justify-content: center;
-}
 
 .voteChannel{
   flex: 6;

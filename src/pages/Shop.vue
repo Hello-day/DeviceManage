@@ -23,8 +23,12 @@
                 <!--    现有投票-->
                 <div class="voteNowHave">
                   <div>
-                    投&nbsp;票&nbsp;详&nbsp;情&nbsp;:
+                    订&nbsp;单&nbsp;编&nbsp;号&nbsp;:
                     <span>{{i.recordId}}</span>
+                  </div>
+                  <div>
+                    购&nbsp;买&nbsp;日&nbsp;期&nbsp;:
+                    <span>{{i.purchaseDate}}</span>
                   </div>
                 </div>
             </div>
