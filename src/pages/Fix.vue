@@ -29,28 +29,22 @@
                   <!--    现有投票-->
                   <div  class="voteEdit" >
 
-                    <el-form ref="dynamicValidateForm" :model="dynamicValidateForm" label-width="100px">
+                    <el-form ref="form" :model="form" label-width="100px">
                       <el-form-item label="维修经费">
-                        <el-input v-model="dynamicValidateForm.name"></el-input>
+                        <el-input v-model="form.cost"></el-input>
                       </el-form-item>
 
                       <el-form-item  label="经办人员" >
-                        <el-select v-model="dynamicValidateForm.channelName" placeholder="请选择经办人员">
+                        <el-select v-model="form.userName" placeholder="请选择经办人员">
                           <!--eslint-disable-next-line-->
                           <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
                         </el-select>
                       </el-form-item>
                       <el-form-item  label="设备名" >
-                        <el-select v-model="dynamicValidateForm.channelName" placeholder="请选择设备名">
+                        <el-select v-model="form.deviceName" placeholder="请选择设备名">
                           <!--eslint-disable-next-line-->
                           <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
                         </el-select>
-                      </el-form-item>
-
-                      <el-form-item label="维修日期">
-                        <el-col :span="11">
-                          <el-date-picker type="date" placeholder="日期" v-model="dynamicValidateForm.date1" style="width: 100%;"></el-date-picker>
-                        </el-col>
                       </el-form-item>
 
                       <el-form-item>
@@ -117,16 +111,10 @@ export default {
       flagOfstartCreate:false,
       update:true,
 
-      dynamicValidateForm: {
-        options: [{
-          voteId:'',
-          optionName: ''
-        }],
-        option1: '',
-        date1:'',
-        name: '',
-        channelName: '',
-        description: ''
+      form: {
+        cost: '',
+        deviceName: '',
+        userName: ''
       },
       tabledatas:[]
     }
@@ -134,12 +122,12 @@ export default {
   methods:{
     submitForm() {
 
-      this.request.post('/vote/add/', this.dynamicValidateForm).then(res=>{
+      this.request.post('/vote/add/', this.form).then(res=>{
         if(res.code=="1"){
           this.$message.success("提交成功！")
           this.vote_Id = res.data
           console.log(this.vote_Id)
-          this.dynamicValidateForm.options.unshift({
+          this.form.options.unshift({
             voteId:'',
             optionName: ''
           })

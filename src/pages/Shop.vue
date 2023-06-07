@@ -20,7 +20,7 @@
           <transition-group name="list-complete" tag="p" appear v-for="i in myPurchase" >
             <div class="textArea" :key="i" >
                 <!--    现有投票-->
-                <div class="voteNowHave" >
+                <div class="voteNowHave" @click="votePageApper(i)">
                   <div>
                     订&nbsp;单&nbsp;编&nbsp;号&nbsp;:
                     <span>{{i.recordId}}</span>
@@ -60,7 +60,7 @@ export default {
       this.$router.push({
                 name:"ShopContent",
                 query:{
-                  voteItem:i  //变量名准备改
+                  recordId:i  //变量名准备改
                 }
             })
     },

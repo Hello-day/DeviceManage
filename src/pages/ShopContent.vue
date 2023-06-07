@@ -14,11 +14,7 @@
 
     </div>
 
-
-
-
     <div class="visualizationOfHome">
-
       <div class="viewOfvoteData">
         <div class="voteChannel"  style="overflow:auto">
           <div class="textArea" >
@@ -54,17 +50,11 @@
                     </el-table-column>
                   </el-table>
                 </template>
-
               </div>
             </div>
-
-
           </div>
-
-
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -77,31 +67,8 @@ export default {
   name: "ShopContent",
   data(){
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: 'iPhone11',
-        address: '11'
-      }, {
-        date: '2016-05-04',
-        name: 'iPhone12',
-        address: '22'
-      }, {
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      }, {
-        date: '2016-05-03',
-        name: 'iPhone14',
-        address: '44'
-      }],
-      vote:[],  //存放频道内的投票项目
-      count:0,
-      Channel: this.$route.query,
-      flagOfvoteCenter:true,
-      flagOftext:true,
-      flagOfvoteData:true,
-      flagOfvoteContent:true,
-
+      tableData: [],
+      Id: this.$route.query
     }
   },
   methods:{
@@ -110,17 +77,13 @@ export default {
     },
 
     list(){
-      this.request.get("/vote/list/"+this.Channel.id).then(res=>{
-        this.vote = res.data
-        console.log(this.vote)
-        console.log(this.ChannelId)
+      this.request.get("/shop/list/"+this.Id.recordId).then(res=>{ //路径需要改
+        this.tableData = res.data
       })
       
     },
-
   },
   created() {
-
     this.list()
   }
 }
