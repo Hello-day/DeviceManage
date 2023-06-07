@@ -32,6 +32,11 @@ module.exports = {
                 changeOrigin: true,
                 ['^/repair']:'',
             },
+            '/purchase':{
+                target: 'http://localhost:8081',
+                changeOrigin: true,
+                ['^/purchase']:'',
+            },
             '/lend':{
                 target: 'http://localhost:8081',
                 changeOrigin: true,

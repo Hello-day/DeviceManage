@@ -13,45 +13,25 @@
     </div>
 
     <div class="visualizationOfHome">
-
       <div class="viewOfvoteData">
         <div class="voteChannel"  style="overflow:auto" @click="votePageApper(1)">
-          <div class="textArea" >
-          <div class="voteChannel">
-            <!--    现有投票-->
-            <div class="voteNowHave" >
-              <div>
-                订&nbsp;单&nbsp;编&nbsp;号&nbsp;:
-                <span>111</span>
-              </div>
-              <br>
-              <div>
-                订&nbsp;单&nbsp;日&nbsp;期&nbsp;:
-                <span>111</span>
-              </div>
-          </div>
-          </div>
 
           <!--eslint-disable-next-line-->
-          <transition-group name="list-complete" tag="p" appear v-for="i in myVote">
-            <div v-show="flagOftext" class="textArea" :key="i">
+          <transition-group name="list-complete" tag="p" appear v-for="i in myPurchase">
 
-              <div class="voteChannel" @click="votePageApper(i)">
+            <div v-show="flagOftext" class="textArea" :key="i">
                 <!--    现有投票-->
                 <div class="voteNowHave">
                   <div>
                     投&nbsp;票&nbsp;详&nbsp;情&nbsp;:
-                    <span>{{i.description}}</span>
+                    <span>{{i.recordId}}</span>
                   </div>
                 </div>
-              </div>
             </div>
           </transition-group>
-
         </div>
 
 
-      </div>
       </div>
 
     </div>
@@ -68,7 +48,7 @@ export default {
     return {
       changeBtn:'返回',
       channel:[],
-      myVote:[],  //储存我创建的投票，里面数据删掉
+      myPurchase:[],  //储存我创建的投票，里面数据删掉
       user: localStorage.getItem("user"),
       flagOfvoteCenter:false,
       flagOftext:true,
@@ -76,18 +56,6 @@ export default {
       flagOfvoteContent:true,
       flagOfstartCreate:false,
 
-      dynamicValidateForm: {
-        options: [{
-          voteId:'',
-          optionName: ''
-        }],
-        option1: '',
-
-        name: '',
-        channelName: '',
-        description: ''
-      },
-      vote_Id:''
 
     }
   },
@@ -101,77 +69,15 @@ export default {
                 }
             })
     },
-    open() {
-      this.$prompt('请输入频道名', '新建频道', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPattern: /^[\s\S]*.*[^\s][\s\S]*$/,  //用了个简单正则，判断输入是否为空
-        inputErrorMessage: '频道名不能为空！'
-      }).then(( value ) => {
-        this.request.post('/channel/add/',value).then(res=>{  //路径没配，value为输入的频道名称
-          if(res.code=="1"){
-            this.$message({
-              type: 'success',
-              message: '新建频道名: ' + value.value
-            });
-
-            this.request.get("/channel/list").then(res=>{ //刷新频道列表
-              if(res.code == 1){
-                this.channel=res.data
-              }else{
-                prompt(res.msg)
-              }
-            });
-          }
-          else{
-            this.$message.error("新建失败！")
-          }
-        })
-
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消新建'
-        });
-      });
-    },
 
     goBack() {
       this.$router.go(-1)
     },
 
-    closetextArea(i){   //删除投票
-
-      // this.myVote.splice(i-1, 1);  //从数组中删除，使这项不显示，应该放到删除成功下面，此处为测试用
-
-      this.request.get('/vote/delete/'+ i.id).then(res=>{  //路由没配
-        if(res.code=="1"){
-          this.$message.success("删除成功！")
-          // this.myVote.splice(i-1, 1);
-          this.request.get("/vote/mine").then(res => {
-            this.myVote = res.data
-        })
-          
-        
-        }
-        else{
-          this.$message.error("删除失败！")
-        }
-      })
-
-    },
 
     list(){
-      this.request.get("/channel/list").then(res=>{
-        if(res.code == 1){
-          this.channel=res.data
-        }else{
-          prompt(res.msg)
-        }
-        // console.log(this.channel)
-        this.request.get("/vote/mine").then(res => {
-        this.myVote = res.data
-        })
+      this.request.get("/purchase/list").then(res => {
+        this.myPurchase = res.data
       })
     },
 
@@ -209,7 +115,7 @@ export default {
           this.$message.error("提交失败！")
         }
         this.request.get("/vote/mine").then(res => {
-          this.myVote = res.data
+          this.myPurchase = res.data
         })
       })
 
@@ -275,9 +181,7 @@ export default {
 
 
 .textArea{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
   width: 95%;
   height: 100px;
   background-color: white;
