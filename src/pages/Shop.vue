@@ -14,14 +14,13 @@
 
     <div class="visualizationOfHome">
       <div class="viewOfvoteData">
-        <div class="voteChannel"  style="overflow:auto" @click="votePageApper(1)">
+        <div class="voteChannel"  style="overflow:auto" >
 
           <!--eslint-disable-next-line-->
-          <transition-group name="list-complete" tag="p" appear v-for="i in myPurchase">
-
-            <div v-show="flagOftext" class="textArea" :key="i">
+          <transition-group name="list-complete" tag="p" appear v-for="i in myPurchase" >
+            <div class="textArea" :key="i" >
                 <!--    现有投票-->
-                <div class="voteNowHave">
+                <div class="voteNowHave" >
                   <div>
                     订&nbsp;单&nbsp;编&nbsp;号&nbsp;:
                     <span>{{i.recordId}}</span>
@@ -50,16 +49,8 @@ export default {
   name: "Shop",
   data(){
     return {
+      myPurchase:[],
       changeBtn:'返回',
-      channel:[],
-      myPurchase:[],  //储存我创建的投票，里面数据删掉
-      user: localStorage.getItem("user"),
-      flagOfvoteCenter:false,
-      flagOftext:true,
-      flagOfvoteData:true,
-      flagOfvoteContent:true,
-      flagOfstartCreate:false,
-
 
     }
   },

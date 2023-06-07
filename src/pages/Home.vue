@@ -74,17 +74,17 @@
                       stripe
                       style="width: 100% ;margin-top: 30px;overflow-y:auto">
                     <el-table-column
-                        prop="deviceId"
+                        prop="recordId"
                         label="记录号"
                         width="180">
                     </el-table-column>
                     <el-table-column
-                        prop="deviceName"
-                        label="设备名"
+                        prop="deviceId"
+                        label="设备号"
                         width="180">
                     </el-table-column>
                     <el-table-column
-                        prop="quantity"
+                        prop="lendDate"
                         label="借出日期">
                     </el-table-column>
                     <el-table-column label="操作" width="150">
@@ -131,19 +131,15 @@ export default {
       Item: '',
       Voted: '',
       ChannelId: '',
-      flagOfvoteCenter: false,
-      flagOftext: true,
-      flagOfvoteData: true,
-      flagOfvoteContent: true,
-      color:this.coloring()
+      tabledatas:[]
     }
   },
   methods: {
 
     list() {
-      this.request.get("/channel/list").then(res => {
+      this.request.get("/lend/list").then(res => {
         if (res.code == 1) {
-          this.channel = res.data
+          this.tabledatas = res.data
         } else {
           prompt(res.msg)
         }
@@ -151,29 +147,11 @@ export default {
       })
     },
 
-    loadNum() {
-      this.request.get("/user/count").then(res => {
-        this.Num = res.data.cnt
-        this.Item = res.data.numOfVote
-        this.Voted = res.data.numOfPeople
-      })
-    },
-
   },
 
   created() {
-
+     this.list();
   },
-  randomRgb(item) {
-    let R = Math.floor(Math.random() * 255);
-    let G = Math.floor(Math.random() * 255);
-    let B = Math.floor(Math.random() * 255);
-    return {
-      width: (item.num / item.total * 100) + '%', // 进度条
-      background: 'rgb(' + R + ',' + G + ',' + B + ')'
-    };
-  }
-
 
 }
 
