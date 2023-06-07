@@ -11,7 +11,6 @@ import axios from 'axios'
 import * as echarts from "echarts";
 
 
-
 Vue.use(ElementUI,{size:'mini'});
 Vue.config.productionTip = false
 Vue.use(vueResource)

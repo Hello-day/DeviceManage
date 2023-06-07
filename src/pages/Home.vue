@@ -194,9 +194,6 @@ export default {
   },
 
   created() {
-    this.list(),
-
-        this.loadNum()
 
   },
   randomRgb(item) {

@@ -19,7 +19,7 @@
               <div class="voteNowHave"  style="overflow-y:auto" >
                 <div style="margin: auto">
                   <el-button round icon="el-icon-edit">批量编辑</el-button>
-                  <el-button round icon = "el-icon-finished" @click="submit">提交</el-button>
+                  <el-button round icon = "el-icon-finished">提交</el-button>
                   <el-button round icon = "el-icon-plus" @click="addAll">批量增加</el-button>
                   <el-button round icon="el-icon-delete" @click="delectAll">批量删除</el-button>
                 </div>
@@ -32,7 +32,7 @@
                     </el-table-column>
                     <el-table-column label="操作">
                       <template slot-scope="scope">
-                        <el-button round @click="changePWD">修改密码</el-button>
+                        <el-button round @click="changePWD(scope.row.userName)">修改密码</el-button>
                         <el-button round type="danger" plain @click="delect(scope.row.userId,scope.$index)">删除用户</el-button>
                       </template>
                     </el-table-column>
@@ -49,43 +49,43 @@
 </template>
 
 <script>
-import Vue from 'vue'
+
 export default {
   data() {
     return {
       tabledatas: [],
       multipleSelection: [],
-      user:[],
     }
   },
   created() {
     this.table()
-   // this.tabledatas = [
-    //  { title: '1', text: 'admin' },
-   //   { title: '2', text: 'ss222ssa' },
-   // ]
-    this.tabledatas.map(i => {
-      i.show = false
-      return i
-    })
+
   },
   methods: {
     table(){
       this.request.get("/user/list").then(res=>{
           this.tabledatas=res.data
       })
-      console.log(this.tabledatas)
+     // console.log(this.tabledatas)
     },
 
-    changePWD() {
+    changePWD(userName) {
       this.$prompt('请输入新密码', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-      }).then(({ value }) => {
-        this.$message({
-          type: 'success',
-          message: '新密码是: ' + value
-        });
+      }).then(( value ) => {
+        this.request.post("/user/change/"+ userName,{password: value.value}).then(res=>{ //这边不行
+          if(res.code=="1"){
+            this.$message({
+              type: 'success',
+              message: '新密码是: ' + value.value
+            })
+          }
+          else{
+            this.$message.error("修改失败！")
+          }
+        })
+       ;
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -94,17 +94,10 @@ export default {
       });
     },
 
-    submit() {
-      this.tabledatas.map((i, index) => {
-        i.show = false
-        Vue.set(this.tabledatas, index, i)
-      })
-    },
-
     // 单个删除
     delect(userId,index) {
       this.tabledatas.splice(index, 1)
-        this.request.get('/user/delete/'+ userId).then(res=>{  //路由没配
+        this.request.get('/user/delete/'+ userId).then(res=>{
           if(res.code=="1"){
             this.$message.success("删除成功！")
           }
@@ -112,9 +105,8 @@ export default {
             this.$message.error("删除失败！")
           }
         })
-
     },
-    
+
     //批量新增
     addAll() {
       if (this.multipleSelection.length == 0) {

@@ -20,25 +20,25 @@
               <div class="voteNowHave" >
                 <template >
                   <el-table
-                      :data="tableData"
+                      :data="tabledatas"
                       stripe
                       style="width: 100% ;margin-top: 30px;overflow-y:auto">
                     <el-table-column
-                        prop="date"
+                        prop="deviceId"
                         label="设备号"
                         width="180">
                     </el-table-column>
                     <el-table-column
-                        prop="name"
+                        prop="deviceName"
                         label="设备名"
                         width="180">
                     </el-table-column>
                     <el-table-column
-                        prop="address"
+                        prop="quantity"
                         label="设备数量">
                     </el-table-column>
                     <el-table-column
-                        prop="people"
+                        prop="status"
                         label="设备状态">
                     </el-table-column>
                     <el-table-column align="center" fixed="right" label="操作" width="150">
@@ -49,7 +49,7 @@
                             size="small"
                         >查看详情</el-button>
                         <el-button  type="text"
-                                    size="small" style="color:#e98484"  @click="delete(scope.$index)">删除</el-button>
+                                    size="small" style="color:#e98484"  @click="delect(scope.row.deviceId,scope.$index)">删除</el-button>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -57,14 +57,9 @@
 
               </div>
             </div>
-
-
           </div>
-
-
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -74,37 +69,33 @@ import 'animate.css'
 // eslint-disable-next-line no-unused-vars
 import axios, {Axios as request} from "axios";
 export default {
-  name: "LendContent",
+  name: "Storage",
   data(){
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: 'iPhone11',
-        address: '11'
-      }, {
-        date: '2016-05-04',
-        name: 'iPhone12',
-        address: '22'
-      }, {
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      }, {
-        date: '2016-05-03',
-        name: 'iPhone14',
-        address: '44'
-      }],
-      vote:[],  //存放频道内的投票项目
-      count:0,
-      Channel: this.$route.query,
-      flagOfvoteCenter:true,
-      flagOftext:true,
-      flagOfvoteData:true,
-      flagOfvoteContent:true,
-
+      tabledatas: [],
     }
   },
   methods:{
+
+    table(){
+      this.request.get("/device/list").then(res=>{
+        this.tabledatas=res.data
+      })
+      // console.log(this.tabledatas)
+    },
+
+    delect(deviceId,index) {
+      this.tabledatas.splice(index, 1)
+      this.request.get('/device/delete/'+ deviceId).then(res=>{
+        if(res.code=="1"){
+          this.$message.success("删除成功！")
+        }
+        else{
+          this.$message.error("删除失败！")
+        }
+      })
+
+    },
 
     delete(i){   //删除
       // this.myVote.splice(i-1, 1);  //从数组中删除，使这项不显示，应该放到删除成功下面，此处为测试用
@@ -137,19 +128,11 @@ export default {
       this.$router.go(-1)
     },
 
-    list(){
-      this.request.get("/vote/list/"+this.Channel.id).then(res=>{
-        this.vote = res.data
-        console.log(this.vote)
-        console.log(this.ChannelId)
-      })
-
-    },
 
   },
   created() {
 
-    this.list()
+    this.table()
   }
 }
 

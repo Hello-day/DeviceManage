@@ -27,20 +27,20 @@ module.exports = {
                 changeOrigin: true,
                 ['^/user']:'',
             },
-            '/channel':{
+            '/repair':{
                 target: 'http://localhost:8081',
                 changeOrigin: true,
-                ['^/channel']:'',
+                ['^/repair']:'',
             },
-            '/vote':{
+            '/device':{
                 target: 'http://localhost:8081',
                 changeOrigin: true,
-                ['^/vote']:'',
+                ['^/device']:'',
             },
-            '/option':{
+            '/scrap':{
                 target: 'http://localhost:8081',
                 changeOrigin: true,
-                ['^/option']:'',
+                ['^/scrap']:'',
             },
 
         }

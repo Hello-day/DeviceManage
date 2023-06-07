@@ -12,35 +12,33 @@
 
 
     <div class="visualizationOfHome">
-
       <div class="viewOfvoteData">
         <div class="voteChannel"  style="overflow:auto">
           <div class="textArea" >
-
             <div class="voteChannel">
               <!--    现有投票-->
               <div class="voteNowHave"  style="overflow-y:auto" >
                 <template>
                   <el-table
-                      :data="tableData"
+                      :data="tabledatas"
                       stripe
                       style="width: 100% ;margin-top: 30px;overflow-y:auto">
                     <el-table-column
-                        prop="date"
+                        prop="deviceId"
                         label="设备号"
                         width="180">
                     </el-table-column>
                     <el-table-column
-                        prop="name"
+                        prop="deviceName"
                         label="设备名"
                         width="180">
                     </el-table-column>
                     <el-table-column
-                        prop="address"
+                        prop="scrapDate"
                         label="报废日期">
                     </el-table-column>
                     <el-table-column
-                        prop="people"
+                        prop="userName"
                         label="批准人">
                     </el-table-column>
                   </el-table>
@@ -48,95 +46,22 @@
 
               </div>
             </div>
-
-
           </div>
-
-
         </div>
       </div>
-
     </div>
   </div>
+
 </template>
 
 <script>
 import 'animate.css'
-// eslint-disable-next-line no-unused-vars
-import axios, {Axios as request} from "axios";
+
 export default {
-  name: "LendContent",
+  name: "Obsolete",
   data(){
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: 'iPhone11',
-        address: '11'
-      }, {
-        date: '2016-05-04',
-        name: 'iPhone12',
-        address: '22'
-      }, {
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-01',
-        name: 'iPhone13',
-        address: '33'
-      },{
-        date: '2016-05-03',
-        name: 'iPhone14',
-        address: '44'
-      }],
-      vote:[],  //存放频道内的投票项目
-      count:0,
-      Channel: this.$route.query,
-      flagOfvoteCenter:true,
-      flagOftext:true,
-      flagOfvoteData:true,
-      flagOfvoteContent:true,
-
+      tabledatas:[],
     }
   },
   methods:{
@@ -144,19 +69,29 @@ export default {
       this.$router.go(-1)
     },
 
-    list(){
-      this.request.get("/vote/list/"+this.Channel.id).then(res=>{
-        this.vote = res.data
-        console.log(this.vote)
-        console.log(this.ChannelId)
+    table(){
+      this.request.get("/scrap/list").then(res=>{
+        this.tabledatas=res.data
+      })
+      // console.log(this.tabledatas)
+    },
+
+    delect(deviceId,index) {
+      this.tabledatas.splice(index, 1)
+      this.request.get('/user/delete/'+ deviceId).then(res=>{  //路由没配
+        if(res.code=="1"){
+          this.$message.success("删除成功！")
+        }
+        else{
+          this.$message.error("删除失败！")
+        }
       })
 
     },
 
   },
   created() {
-
-    this.list()
+    this.table()
   }
 }
 

@@ -7,74 +7,113 @@
                 <span style="flex: 9;font-size: 18px;font-weight: bold">
                 维修管理
                 </span>
+        <span class= "IconArea" style="flex: 2;font-size: 18px;font-weight: bold;color: #4E5C72;justify-content: end;display: flex">
+                   <el-button round size="medium"  @click="newFix()"  ref='btn1'>新增维修</el-button>
+        </span>
 
       </div>
 
     </div>
 
+
+
     <div class="visualizationOfHome">
-
       <div class="viewOfvoteData">
-        <div class="voteChannel"  style="overflow:auto" @click="votePageApper(1)">
-          <div class="textArea" >
+        <div class="voteChannel"  style="overflow:auto">
+
+
+          <div class="textArea"  >
+
             <div class="voteChannel">
-              <!--    现有投票-->
-              <div class="voteNowHave" >
-                <div>
-                  订&nbsp;单&nbsp;编&nbsp;号&nbsp;:
-                  <span>111</span>
-                </div>
-                <br>
-                <div>
-                  订&nbsp;单&nbsp;日&nbsp;期&nbsp;:
-                  <span>111</span>
-                </div>
-              </div>
-            </div>
 
-            <!--eslint-disable-next-line-->
-            <transition-group name="list-complete" tag="p" appear v-for="i in myVote">
-              <div v-show="flagOftext" class="textArea" :key="i">
+              <div v-show="flagOfstartCreate" class="voteArea" :key="100">
+                <div class="headOfvoteData">
+                  <span >新增维修记录</span>
+                </div>
 
-                <div class="voteChannel" @click="votePageApper(i)">
+                <div class="voteCreate">
                   <!--    现有投票-->
-                  <div class="voteNowHave">
-                    <div>
-                      投&nbsp;票&nbsp;详&nbsp;情&nbsp;:
-                      <span>{{i.description}}</span>
-                    </div>
+                  <div  class="voteEdit" >
+
+                    <el-form ref="dynamicValidateForm" :model="dynamicValidateForm" label-width="100px">
+                      <el-form-item label="维修经费">
+                        <el-input v-model="dynamicValidateForm.name"></el-input>
+                      </el-form-item>
+
+                      <el-form-item  label="经办人员" >
+                        <el-select v-model="dynamicValidateForm.channelName" placeholder="请选择经办人员">
+                          <!--eslint-disable-next-line-->
+                          <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
+                        </el-select>
+                      </el-form-item>
+
+
+                      <el-form-item label="详细描述">
+                        <el-input type="textarea" v-model="dynamicValidateForm.description"></el-input>
+                      </el-form-item>
+
+                      <el-form-item>
+                        <el-button type="primary" @click="submitForm()">立即创建</el-button>
+                        <el-button>取消</el-button>
+                      </el-form-item>
+
+                    </el-form>
+
                   </div>
                 </div>
               </div>
-            </transition-group>
 
+              <div class="voteNowHave"  style="overflow-y:auto" v-show="flagOftext" >
+                <template>
+                  <el-table
+                      :data="tabledatas"
+                      stripe
+                      style="width: 100% ;margin-top: 30px;overflow-y:auto" >
+                    <el-table-column
+                        prop="recordId"
+                        label="记录号"
+                        width="180">
+                    </el-table-column>
+                    <el-table-column
+                        prop="deviceId"
+                        label="设备名"
+                        width="180">
+                    </el-table-column>
+                    <el-table-column
+                        prop="repairDate"
+                        label="维修日期">
+                    </el-table-column>
+                    <el-table-column
+                        prop="cost"
+                        label="维修经费">
+                    </el-table-column>
+                    <el-table-column
+                        prop="userId"
+                        label="经手人">
+                    </el-table-column>
+                  </el-table>
+                </template>
+
+              </div>
+            </div>
           </div>
-
-
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
 import 'animate.css'
-// eslint-disable-next-line no-unused-vars
-import axios, {Axios as request} from "axios";
+
 export default {
-  name: "VoteContent",
+  name: "Lend",
   data(){
     return {
       changeBtn:'返回',
-      channel:[],
-      myVote:[],  //储存我创建的投票，里面数据删掉
-      user: localStorage.getItem("user"),
-      flagOfvoteCenter:false,
       flagOftext:true,
-      flagOfvoteData:true,
-      flagOfvoteContent:true,
       flagOfstartCreate:false,
+      update:true,
 
       dynamicValidateForm: {
         options: [{
@@ -87,72 +126,22 @@ export default {
         channelName: '',
         description: ''
       },
-      vote_Id:''
-
+      tabledatas:[]
     }
   },
   methods:{
-
-    votePageApper(i){
-      this.$router.push({
-        name:"FixContent",
-        query:{
-          voteItem:i  //变量名准备改
-        }
+    table(){
+      this.request.get("/repair/list").then(res=>{//路由
+        this.tabledatas=res.data
       })
-    },
-    open() {
-      this.$prompt('请输入频道名', '新建频道', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPattern: /^[\s\S]*.*[^\s][\s\S]*$/,  //用了个简单正则，判断输入是否为空
-        inputErrorMessage: '频道名不能为空！'
-      }).then(( value ) => {
-        this.request.post('/channel/add/',value).then(res=>{  //路径没配，value为输入的频道名称
-          if(res.code=="1"){
-            this.$message({
-              type: 'success',
-              message: '新建频道名: ' + value.value
-            });
-
-            this.request.get("/channel/list").then(res=>{ //刷新频道列表
-              if(res.code == 1){
-                this.channel=res.data
-              }else{
-                prompt(res.msg)
-              }
-            });
-          }
-          else{
-            this.$message.error("新建失败！")
-          }
-        })
-
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消新建'
-        });
-      });
+      // console.log(this.tabledatas)
     },
 
-    goBack() {
-      this.$router.go(-1)
-    },
-
-    closetextArea(i){   //删除投票
-
-      // this.myVote.splice(i-1, 1);  //从数组中删除，使这项不显示，应该放到删除成功下面，此处为测试用
-
-      this.request.get('/vote/delete/'+ i.id).then(res=>{  //路由没配
+    delect(deviceId,index) {
+      this.tabledatas.splice(index, 1)
+      this.request.get('/user/delete/'+ deviceId).then(res=>{  //路由没配
         if(res.code=="1"){
           this.$message.success("删除成功！")
-          // this.myVote.splice(i-1, 1);
-          this.request.get("/vote/mine").then(res => {
-            this.myVote = res.data
-          })
-
-
         }
         else{
           this.$message.error("删除失败！")
@@ -161,74 +150,17 @@ export default {
 
     },
 
-    list(){
-      this.request.get("/channel/list").then(res=>{
-        if(res.code == 1){
-          this.channel=res.data
-        }else{
-          prompt(res.msg)
-        }
-        // console.log(this.channel)
-        this.request.get("/vote/mine").then(res => {
-          this.myVote = res.data
-        })
-      })
-    },
-
-    submitForm() {
-
-      this.request.post('/vote/add/', this.dynamicValidateForm).then(res=>{
-        if(res.code=="1"){
-          this.$message.success("提交成功！")
-          this.vote_Id = res.data
-          console.log(this.vote_Id)
-          this.dynamicValidateForm.options.unshift({
-            voteId:'',
-            optionName: ''
-          })
-          this.dynamicValidateForm.options[0].optionName=this.dynamicValidateForm.option1;
-          for(let i=0;i<this.dynamicValidateForm.options.length;i++){
-            console.log(i+" "+this.vote_Id)
-            this.dynamicValidateForm.options[i].voteId = this.vote_Id
-          }
-          // for(let i in this.dynamicValidateForm.options){
-          //   i.voteId = this.vote_Id
-          // }
-          this.request.post('/option/add', this.dynamicValidateForm.options).then(res=>{
-            if(res.code=="1"){
-              this.$message.success("提交成功！")
-            }
-            else{
-              this.$message.error("提交失败！")
-            }
-          })
-          this.flagOftext = !this.flagOftext,
-              this.flagOfstartCreate = !this.flagOfstartCreate
-        }
-        else{
-          this.$message.error("提交失败！")
-        }
-        this.request.get("/vote/mine").then(res => {
-          this.myVote = res.data
-        })
-      })
-
-    },
-
-    startCreate(){
-
+    newFix(){
       var n = this.changeBtn;
       this.changeBtn = this.$refs.btn1.$el.innerText;
-      //this.$refs.btn1是取上面id为btn1的元素（说id是不严谨的）
       this.$refs.btn1.$el.innerText = n;
       this.flagOftext = !this.flagOftext;
       this.flagOfstartCreate = !this.flagOfstartCreate;
-      // this.request.get("/channel/list")
     },
   },
+
   created() {
-    this.list()
-    // this.loadMyVote()
+    this.table()
   }
 }
 </script>
@@ -260,9 +192,7 @@ export default {
   width: 100%;
   overflow-y: auto;
   position: relative;
-
 }
-
 .voteChannel div{
   border-radius: 15px;
   margin-top: 20px;
@@ -270,46 +200,10 @@ export default {
 }
 
 .voteChannel div:hover{
-  transform: scale(1,1);
+  transform: scale(1.01,1.01);
 }
 
 
-.textArea{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 95%;
-  height: 100px;
-  background-color: white;
-  margin-left: 30px;
-  position: relative;
-  background-image: radial-gradient(circle farthest-side at 10% 90%, #87d7efb0, #e0d394 70%, #e7eda1b0);
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.05);
-}
-
-.textArea div{
-  margin-top: 0px;
-}
-
-.voteCreate{
-  flex: 14;
-  width: 100%;
-  overflow-y: auto;
-  position: relative;
-}
-.voteCreate div{
-  border-radius: 15px;
-  margin-top: 20px;
-
-}
-
-.voteCreate div:hover{
-  transform: scale(1,1);
-}
-
-.voteArea div{
-  margin-top: 0px;
-}
 
 .liList li{
   text-align: center;
@@ -326,7 +220,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 90%;
   width: 100%;
   flex: 1;
   font-size: 13px;
@@ -335,13 +229,6 @@ export default {
   padding: 0 15px
 }
 
-.voteNowHave:hover{
-  cursor: pointer;
-  background-color: rgba(231,234,237,0.7);
-  transform: scale(0,0);
-  width: 99%;
-  border-radius: 10px;
-}
 
 .dataDisplayOfHome{
   flex: 2;
@@ -365,6 +252,68 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+
+.voteChannel{
+  flex: 14;
+  width: 100%;
+  overflow-y: auto;
+  position: relative;
+
+}
+
+.voteChannel div{
+  border-radius: 15px;
+  margin-top: 20px;
+  transition: all 0.5s;
+}
+
+.voteChannel div:hover{
+  transform: scale(1,1);
+}
+
+.voteArea{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  height: 350px;
+  background-color: rgb(0,0,0,0);
+  margin-left: 30px;
+  margin-top: 100px;
+  position: relative;
+}
+
+
+.headOfvoteData{
+  height: 100%;
+  width: 100%;
+  flex: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  font-weight: bold;
+  font-size: 16px;
+  justify-content: center;
+}
+
+
+.textArea{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  height: 500px;
+  background-color: white;
+  margin-left: 30px;
+  position: relative;
+  background-image: radial-gradient(circle farthest-side at 10% 90%, #87d7efb0, #e4faa891 70%, #e7eda1b0);
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.05);
+}
+
+.textArea div{
+  margin-top: 0px;
 }
 
 .voteChannel{
