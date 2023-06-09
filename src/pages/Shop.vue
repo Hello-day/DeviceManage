@@ -21,7 +21,7 @@
         <div class="voteChannel"  style="overflow:auto" >
           <div v-show="flagOfstartCreate" class="voteArea" :key="100">
             <div class="headOfvoteData">
-              <span >新增购物记录</span>
+              <span >新增购物订单</span>
             </div>
             <div class="voteCreate">
               <!--    现有投票-->
@@ -32,7 +32,19 @@
                       <el-option v-for="i in userlist" :label="i.userName" :value="i.userId"></el-option>
                     </el-select>
                   </el-form-item>
-                 
+                  <el-form-item  label="设备号" >
+                    <el-select v-model="form.deviceId" placeholder="请选择设备号">
+                      <!--eslint-disable-next-line-->
+                      <el-option v-for="i in userlist" :label="i.userName" :value="i.userId"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="购入数量">
+                    <el-input v-model="form.num"></el-input>
+                  </el-form-item>
+                  <el-form-item label="单件经费">
+                    <el-input v-model="form.cost"></el-input>
+                  </el-form-item>
+
                   <el-form-item>
                     <el-button type="primary" @click="submitForm()">立即创建</el-button>
                     <el-button>取消</el-button>
@@ -79,10 +91,14 @@ export default {
 
       form: {
         userId:'',
-        deviceId:''
+        deviceId:'',
+        num:'',
+        cost:'',
       },
 
       myPurchase:[],
+      userlist:[],
+      devicelist:[],
       changeBtn:'返回',
       flagOftext:true,
       flagOfstartCreate:false,
@@ -108,6 +124,17 @@ export default {
         this.myPurchase = res.data
       })
     },
+    table(){
+
+      this.request.get("/user/list").then(res=>{//路由
+        this.userlist=res.data
+      })
+      this.request.get("/device/list").then(res=>{//路由
+        this.devicelist=res.data
+      })
+    },
+
+
 
     startCreate(){
       var n = this.changeBtn;
@@ -134,7 +161,7 @@ export default {
   },
   created() {
     this.list()
-    // this.loadMyVote()
+    this.table()
   }
 }
 </script>

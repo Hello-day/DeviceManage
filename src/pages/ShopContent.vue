@@ -9,6 +9,9 @@
                 <span style="flex: 9;font-size: 18px;font-weight: bold">
                 购物详细信息
                 </span>
+        <span class= "IconArea" style="flex: 2;font-size: 18px;font-weight: bold;color: #4E5C72;justify-content: end;display: flex">
+                   <el-button round size="medium"  @click="newFix()"  ref='btn1'>新增设备记录</el-button>
+        </span>
       </div>
       <!--            数据具体展示-->
 
@@ -19,8 +22,51 @@
         <div class="voteChannel"  style="overflow:auto">
           <div class="textArea" >
             <div class="voteChannel">
+
+              <div v-show="flagOfstartCreate" class="voteArea" :key="100">
+                <div class="headOfvoteData">
+                  <span >新增购入设备记录</span>
+                </div>
+
+                <div class="voteCreate">
+                  <!--    现有投票-->
+                  <div  class="voteEdit" >
+
+                    <el-form ref="form" :model="form" label-width="100px">
+
+
+                      <el-form-item  label="经办人员" >
+                        <el-select v-model="form.userId" placeholder="请选择经办人员">
+                          <!--eslint-disable-next-line-->
+                          <el-option v-for="i in userlist" :label="i.userName" :value="i.userId"></el-option>
+                        </el-select>
+                      </el-form-item>
+                      <el-form-item  label="设备名" >
+                        <el-select v-model="form.deviceId" placeholder="请选择设备名">
+                          <!--eslint-disable-next-line-->
+                          <el-option v-for="i in devicelist" :label="i.deviceName" :value="i.deviceId"></el-option>
+                        </el-select>
+                      </el-form-item>
+                      <el-form-item label="购入数量">
+                        <el-input v-model="form.num"></el-input>
+                      </el-form-item>
+                      <el-form-item label="单件经费">
+                        <el-input v-model="form.cost"></el-input>
+                      </el-form-item>
+
+                      <el-form-item>
+                        <el-button type="primary" @click="submitForm()">立即创建</el-button>
+                        <el-button>取消</el-button>
+                      </el-form-item>
+
+                    </el-form>
+
+                  </div>
+                </div>
+              </div>
+
               <!--    现有投票-->
-              <div class="voteNowHave" >
+              <div class="voteNowHave" v-show="flagOftext" >
                 <template >
                   <el-table
                       :data="tableData"
@@ -67,13 +113,47 @@ export default {
   name: "ShopContent",
   data(){
     return {
+      form: {
+        userId:'',
+        deviceId:'',
+        num:'',
+        cost:'',
+      },
+      changeBtn:'返回',
+      flagOftext:true,
+      flagOfstartCreate:false,
       tableData: [],
+      userlist:[],
+      devicelist:[],
       record: this.$route.query.record
     }
   },
   methods:{
+    newFix(){
+      var n = this.changeBtn;
+      this.changeBtn = this.$refs.btn1.$el.innerText;
+      this.$refs.btn1.$el.innerText = n;
+      this.flagOftext = !this.flagOftext;
+      this.flagOfstartCreate = !this.flagOfstartCreate;
+      //刷新数据
+      this.update = false;
+      this.$nextTick(() => {
+        this.update = true
+      })
+    },
+
     goBack() {
       this.$router.go(-1)
+    },
+
+    table(){
+
+      this.request.get("/user/list").then(res=>{//路由
+        this.userlist=res.data
+      })
+      this.request.get("/device/list").then(res=>{//路由
+        this.devicelist=res.data
+      })
     },
 
     list(){
@@ -86,13 +166,13 @@ export default {
   created() {
     console.log(this.record)
     this.list()
+    this.table()
   }
 }
 
 </script>
 
 <style scoped>
-
 
 .mainBodyOfHome{
   display: flex;
@@ -130,8 +210,6 @@ export default {
   transform: scale(1.01,1.01);
 }
 
-
-
 .liList li{
   text-align: center;
 }
@@ -143,7 +221,6 @@ export default {
 
 
 .voteNowHave{
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -156,6 +233,7 @@ export default {
   color: #464646;
   padding: 0 15px
 }
+
 
 .dataDisplayOfHome{
   flex: 2;
@@ -200,6 +278,31 @@ export default {
   transform: scale(1,1);
 }
 
+.voteArea{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  height: 350px;
+  background-color: rgb(0,0,0,0);
+  margin-left: 30px;
+  margin-top: 100px;
+  position: relative;
+}
+
+
+.headOfvoteData{
+  height: 100%;
+  width: 100%;
+  flex: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  font-weight: bold;
+  font-size: 16px;
+  justify-content: center;
+}
+
 
 .textArea{
   display: flex;
@@ -222,5 +325,4 @@ export default {
   flex: 6;
   width: 100%;
 }
-
 </style>
