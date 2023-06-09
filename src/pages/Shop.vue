@@ -20,7 +20,7 @@
           <transition-group name="list-complete" tag="p" appear v-for="i in myPurchase" >
             <div class="textArea" :key="i" >
                 <!--    现有投票-->
-                <div class="voteNowHave" @click="votePageApper(i)">
+                <div class="voteNowHave" @click="votePageApper(i.recordId)">
                   <div>
                     订&nbsp;单&nbsp;编&nbsp;号&nbsp;:
                     <span>{{i.recordId}}</span>
@@ -51,16 +51,15 @@ export default {
     return {
       myPurchase:[],
       changeBtn:'返回',
-
     }
   },
   methods:{
 
-    votePageApper(i){
+    votePageApper(id){
       this.$router.push({
                 name:"ShopContent",
                 query:{
-                  recordId:i  //变量名准备改
+                  record:id //变量名准备改
                 }
             })
     },
@@ -69,55 +68,13 @@ export default {
       this.$router.go(-1)
     },
 
-
     list(){
       this.request.get("/purchase/list").then(res => {
         this.myPurchase = res.data
       })
     },
 
-    submitForm() {
-
-      this.request.post('/vote/add/', this.dynamicValidateForm).then(res=>{
-        if(res.code=="1"){
-          this.$message.success("提交成功！")
-          this.vote_Id = res.data
-          console.log(this.vote_Id)
-          this.dynamicValidateForm.options.unshift({
-            voteId:'',
-            optionName: ''
-          })
-          this.dynamicValidateForm.options[0].optionName=this.dynamicValidateForm.option1;
-          for(let i=0;i<this.dynamicValidateForm.options.length;i++){
-            console.log(i+" "+this.vote_Id)
-            this.dynamicValidateForm.options[i].voteId = this.vote_Id
-          }
-          // for(let i in this.dynamicValidateForm.options){
-          //   i.voteId = this.vote_Id
-          // }
-          this.request.post('/option/add', this.dynamicValidateForm.options).then(res=>{
-            if(res.code=="1"){
-              this.$message.success("提交成功！")
-            }
-            else{
-              this.$message.error("提交失败！")
-            }
-          })
-          this.flagOftext = !this.flagOftext,
-              this.flagOfstartCreate = !this.flagOfstartCreate
-        }
-        else{
-          this.$message.error("提交失败！")
-        }
-        this.request.get("/vote/mine").then(res => {
-          this.myPurchase = res.data
-        })
-      })
-
-    },
-
     startCreate(){
-
       var n = this.changeBtn;
       this.changeBtn = this.$refs.btn1.$el.innerText;
       //this.$refs.btn1是取上面id为btn1的元素（说id是不严谨的）

@@ -32,15 +32,15 @@
                     <el-form ref="form" :model="form" label-width="100px">
 
                       <el-form-item  label="经办人员" >
-                        <el-select v-model="form.userName" placeholder="请选择经办人员">
+                        <el-select v-model="form.userId" placeholder="请选择经办人员">
                           <!--eslint-disable-next-line-->
-                          <el-option v-for="i in userlist" :label="i.userName" :value="i.userName"></el-option>
+                          <el-option v-for="i in userlist" :label="i.userName" :value="i.userId"></el-option>
                         </el-select>
                       </el-form-item>
                       <el-form-item  label="设备名" >
-                        <el-select v-model="form.deviceName" placeholder="请选择设备名">
+                        <el-select v-model="form.deviceId" placeholder="请选择设备名">
                           <!--eslint-disable-next-line-->
-                          <el-option v-for="i in devicelist" :label="i.name" :value="i.deviceName"></el-option>
+                          <el-option v-for="i in devicelist" :label="i.name" :value="i.deviceId"></el-option>
                         </el-select>
                       </el-form-item>
 
@@ -113,23 +113,17 @@ export default {
       devicelist:[],
 
       form: {
-        userName:'',
-        deviceName:''
+        userId:'',
+        deviceId:''
       },
 
     }
   },
   methods:{
     submitForm() {
-      this.request.post('/lend/add/', this.form).then(res=>{
+      this.request.post('/lend/form/', this.form).then(res=>{
         if(res.code=="1"){
           this.$message.success("提交成功！")
-          this.vote_Id = res.data
-          console.log(this.vote_Id)
-          this.form.options.unshift({
-            voteId:'',
-            optionName: ''
-          })
         }
         else{
           this.$message.error("提交失败！")

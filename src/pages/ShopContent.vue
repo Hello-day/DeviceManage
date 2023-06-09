@@ -27,25 +27,25 @@
                       stripe
                       style="width: 100% ;margin-top: 30px;overflow-y:auto">
                     <el-table-column
-                        prop="date"
+                        prop="deviceId"
                         label="设备号"
                         width="180">
                     </el-table-column>
                     <el-table-column
-                        prop="name"
-                        label="设备名"
+                        prop="purchaseDate"
+                        label="购入日期"
                         width="180">
                     </el-table-column>
                     <el-table-column
-                        prop="address"
+                        prop="quantity"
                         label="购入数量">
                     </el-table-column>
                     <el-table-column
-                        prop="cost"
+                        prop="funds"
                         label="购买经费">
                     </el-table-column>
                     <el-table-column
-                        prop="people"
+                        prop="userId"
                         label="经手人员">
                     </el-table-column>
                   </el-table>
@@ -68,7 +68,7 @@ export default {
   data(){
     return {
       tableData: [],
-      Id: this.$route.query
+      record: this.$route.query.record
     }
   },
   methods:{
@@ -77,13 +77,14 @@ export default {
     },
 
     list(){
-      this.request.get("/shop/list/"+this.Id.recordId).then(res=>{ //路径需要改
+      this.request.get("/purchase/detail/"+this.record).then(res=>{ //路径需要改
         this.tableData = res.data
       })
       
     },
   },
   created() {
+    console.log(this.record)
     this.list()
   }
 }

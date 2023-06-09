@@ -35,15 +35,15 @@
                       </el-form-item>
 
                       <el-form-item  label="经办人员" >
-                        <el-select v-model="form.userName" placeholder="请选择经办人员">
+                        <el-select v-model="form.userId" placeholder="请选择经办人员">
                           <!--eslint-disable-next-line-->
-                          <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
+                          <el-option v-for="i in userlist" :label="i.userName" :value="i.userId"></el-option>
                         </el-select>
                       </el-form-item>
                       <el-form-item  label="设备名" >
-                        <el-select v-model="form.deviceName" placeholder="请选择设备名">
+                        <el-select v-model="form.deviceId" placeholder="请选择设备名">
                           <!--eslint-disable-next-line-->
-                          <el-option v-for="i in channel" :label="i.name" :value="i.name"></el-option>
+                          <el-option v-for="i in devicelist" :label="i.deviceName" :value="i.deviceId"></el-option>
                         </el-select>
                       </el-form-item>
 
@@ -88,7 +88,6 @@
                     </el-table-column>
                   </el-table>
                 </template>
-
               </div>
             </div>
           </div>
@@ -113,52 +112,41 @@ export default {
 
       form: {
         cost: '',
-        deviceName: '',
-        userName: ''
+        deviceId: '',
+        userId: ''
       },
-      tabledatas:[]
+      tabledatas:[],
+      userlist:[],
+      devicelist:[],
     }
   },
   methods:{
     submitForm() {
-
-      this.request.post('/vote/add/', this.form).then(res=>{
+      this.request.post('/repair/form/', this.form).then(res=>{
         if(res.code=="1"){
           this.$message.success("提交成功！")
-          this.vote_Id = res.data
-          console.log(this.vote_Id)
-          this.form.options.unshift({
-            voteId:'',
-            optionName: ''
-          })
         }
         else{
           this.$message.error("提交失败！")
         }
-        this.request.get("/vote/mine").then(res => {
-          this.myVote = res.data
+        this.request.get("/repair/list").then(res => {
+          this.tabledatas = res.data
         })
       })
 
     },
+
     table(){
       this.request.get("/repair/list").then(res=>{//路由
         this.tabledatas=res.data
       })
       // console.log(this.tabledatas)
-    },
-
-    delect(deviceId,index) {
-      this.tabledatas.splice(index, 1)
-      this.request.get('/user/delete/'+ deviceId).then(res=>{  //路由没配
-        if(res.code=="1"){
-          this.$message.success("删除成功！")
-        }
-        else{
-          this.$message.error("删除失败！")
-        }
+      this.request.get("/user/list").then(res=>{//路由
+        this.userlist=res.data
       })
-
+      this.request.get("/device/list").then(res=>{//路由
+        this.devicelist=res.data
+      })
     },
 
     newFix(){

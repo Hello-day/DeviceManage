@@ -43,13 +43,18 @@
                     </el-table-column>
                     <el-table-column align="center" fixed="right" label="操作" width="150">
                       <template slot-scope="scope">
-                        <el-button
-                            @click="handleClick(scope.row)"
-                            type="text"
-                            size="small"
-                        >查看详情</el-button>
+                        <el-popover
+                            placement="bottom"
+                            title="详细描述:"
+                            width="150"
+                            trigger="click"
+                           >
+                          <slot>{{ scope.row.description }}</slot>
+                          <el-button slot="reference">查看详情</el-button>
+                        </el-popover>
+
                         <el-button  type="text"
-                                    size="small" style="color:#e98484"  @click="delect(scope.row.deviceId,scope.$index)">报废</el-button>
+                                    size="small" style="color:#e98484; margin-left:8px;"  @click="delect(scope.row.deviceId,scope.$index)">报废</el-button>
                       </template>
                     </el-table-column>
                   </el-table>

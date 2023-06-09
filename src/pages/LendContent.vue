@@ -14,11 +14,7 @@
 
     </div>
 
-
-
-
     <div class="visualizationOfHome">
-
       <div class="viewOfvoteData">
         <div class="voteChannel"  style="overflow:auto">
           <div class="textArea" >

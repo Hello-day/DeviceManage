@@ -145,6 +145,21 @@ export default {
         }
 
       })
+      this.request.get("/user/cnt").then(res => {
+        if (res.code == 1) {
+          this.Num = res.data
+        } else {
+          prompt(res.msg)
+        }
+
+      })
+      this.request.get("/device/cnt").then(res => {
+        if (res.code == 1) {
+          this.Item = res.data
+        } else {
+          prompt(res.msg)
+        }
+      })
     },
 
   },
