@@ -202,22 +202,6 @@ export default {
   right: 0px;
 }
 
-.voteChannel{
-  flex: 14;
-  width: 100%;
-  overflow-y: auto;
-  position: relative;
-}
-.voteChannel div{
-  border-radius: 15px;
-  margin-top: 20px;
-  transition: all 0.5s;
-}
-
-.voteChannel div:hover{
-  transform: scale(1.01,1.01);
-}
-
 .liList li{
   text-align: center;
 }

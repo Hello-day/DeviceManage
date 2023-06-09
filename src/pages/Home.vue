@@ -90,7 +90,7 @@
                     <el-table-column label="操作" width="150">
                       <template slot-scope="scope">
                         <el-button
-                            @click="handleClick(scope.row)"
+                            @click="handleClick(scope.row,scope.$index)"
                             type="text"
                             size="small"
                         >点击归还</el-button>
@@ -137,7 +137,7 @@ export default {
   methods: {
 
     list() {
-      this.request.get("/lend/list").then(res => {
+      this.request.get("/lend/impending").then(res => {
         if (res.code == 1) {
           this.tabledatas = res.data
         } else {
@@ -145,6 +145,7 @@ export default {
         }
 
       })
+
       this.request.get("/user/cnt").then(res => {
         if (res.code == 1) {
           this.Num = res.data
@@ -160,6 +161,21 @@ export default {
           prompt(res.msg)
         }
       })
+    },
+
+    handleClick(i,index){
+      this.request.get('/lend/revert/'+ i.recordId).then(res=>{
+        if(res.code=="1"){
+          this.$message.success("归还成功！")
+          this.tabledatas.splice(index, 1)
+        }
+        else{
+          this.$message.error("提交失败！")
+        }
+
+      })
+
+
     },
 
   },

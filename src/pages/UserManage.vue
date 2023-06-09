@@ -66,7 +66,7 @@ export default {
       this.request.get("/user/list").then(res=>{
           this.tabledatas=res.data
       })
-     // console.log(this.tabledatas)
+
     },
 
     changePWD(userName) {
