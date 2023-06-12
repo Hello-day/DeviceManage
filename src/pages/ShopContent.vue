@@ -131,15 +131,15 @@ export default {
   },
   methods:{
     submitForm() {
-      this.request.post('/purchase/form/', this.form).then(res=>{
+      this.request.post('/purchase/detail/form', this.form).then(res=>{
         if(res.code=="1"){
           this.$message.success("提交成功！")
         }
         else{
           this.$message.error("提交失败！")
         }
-        this.request.get("/purchase/list").then(res => {
-          this.tabledatas = res.data
+        this.request.get("/purchase/detail/"+this.record).then(res=>{ //路径需要改
+          this.tableData = res.data
         })
       })
 
