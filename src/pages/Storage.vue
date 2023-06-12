@@ -35,7 +35,7 @@
                         <el-input v-model="form.deviceName"></el-input>
                       </el-form-item>
                       <el-form-item label="单件价格">
-                        <el-input v-model="form.fund"></el-input>
+                        <el-input v-model="form.funds"></el-input>
                       </el-form-item>
 
                       <el-form-item>
