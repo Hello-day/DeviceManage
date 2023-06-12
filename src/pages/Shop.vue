@@ -47,7 +47,7 @@
 
                   <el-form-item>
                     <el-button type="primary" @click="submitForm()">立即创建</el-button>
-                    <el-button>取消</el-button>
+
                   </el-form-item>
 
                 </el-form>
@@ -65,8 +65,8 @@
                     <span>{{i.recordId}}</span>
                   </div>
                   <div>
-                    购&nbsp;买&nbsp;日&nbsp;期&nbsp;:
-                    <span>{{i.purchaseDate}}</span>
+                    购&nbsp;买&nbsp;总&nbsp;量&nbsp;:
+                    <span>{{i.sum}}</span>
                   </div>
                 </div>
             </div>
