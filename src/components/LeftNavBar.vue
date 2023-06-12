@@ -24,7 +24,7 @@
                  <router-link :to="{name:'Fix'}" active-class="active" >维修管理</router-link>
                  <router-link :to="{name:'Storage'}" active-class="active" >库存管理</router-link>
                  <router-link :to="{name:'Obsolete'}" active-class="active" >报废管理</router-link>
-               <router-link :to="{name:'UserManage'}" active-class="active" >用户管理</router-link>
+                 <ul style="margin-left: 22px;margin-top: 20px" @click="checkAuth()">用户管理</ul>
            </div>
              </transition>
              <transition
@@ -54,7 +54,7 @@
                    <router-link style="font-size: 20px" :to="{name:'Obsolete'}"  active-class="active2"><li class="el-icon-delete"></li></router-link>
                  </el-tooltip>
                  <el-tooltip class="item" effect="dark" content="用户管理" placement="right">
-                   <router-link style="font-size: 20px" :to="{name:'UserManage'}"  active-class="active2"><li class="el-icon-user"></li></router-link>
+               <li class="el-icon-user" style="font-size: 20px;margin-left: 40px;margin-top: 20px" @click="checkAuth()"></li>
                  </el-tooltip>
 
                </div>
@@ -81,10 +81,24 @@
             }
         },
         methods:{
-            changeToIcon(){
+            checkAuth(){
+              this.request.get('/user/check/').then(res=>{
+                if(res.code=="1"){
+                  this.$router.push({
+                    name:"UserManage",
+                  })
+                }
+                else{
+                  this.$message.error("您没有权限查看！")
+                }
+              })
 
+            },
+
+            changeToIcon(){
                 this.flagOfShow= !this.flagOfShow
             },
+
             personalCenterApper(){
                 this.$bus.$emit("personalCenterChange",this.flagOfPersonalCenter)
             }

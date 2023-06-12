@@ -35,14 +35,14 @@
                   <el-form-item  label="设备号" >
                     <el-select v-model="form.deviceId" placeholder="请选择设备号">
                       <!--eslint-disable-next-line-->
-                      <el-option v-for="i in userlist" :label="i.userName" :value="i.deviceId"></el-option>
+                      <el-option v-for="i in devicelist" :label="i.userName" :value="i.deviceId"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="购入数量">
-                    <el-input v-model="form.num"></el-input>
+                    <el-input v-model="form.quantity"></el-input>
                   </el-form-item>
                   <el-form-item label="单件经费">
-                    <el-input v-model="form.cost"></el-input>
+                    <el-input v-model="form.fund"></el-input>
                   </el-form-item>
 
                   <el-form-item>
@@ -92,8 +92,8 @@ export default {
       form: {
         userId:'',
         deviceId:'',
-        num:'',
-        cost:'',
+        quantity:'',
+        fund:'',
       },
 
       myPurchase:[],
@@ -149,8 +149,6 @@ export default {
         this.devicelist=res.data
       })
     },
-
-
 
     startCreate(){
       var n = this.changeBtn;

@@ -115,8 +115,8 @@ export default {
       form: {
         userId:'',
         deviceId:'',
-        num:'',
-        cost:'',
+        quantity:'',
+        fund:'',
         recordId:this.record,
       },
       changeBtn:'返回',
@@ -130,6 +130,20 @@ export default {
     }
   },
   methods:{
+    submitForm() {
+      this.request.post('/purchase/form/', this.form).then(res=>{
+        if(res.code=="1"){
+          this.$message.success("提交成功！")
+        }
+        else{
+          this.$message.error("提交失败！")
+        }
+        this.request.get("/purchase/list").then(res => {
+          this.tabledatas = res.data
+        })
+      })
+
+    },
     newFix(){
       var n = this.changeBtn;
       this.changeBtn = this.$refs.btn1.$el.innerText;
