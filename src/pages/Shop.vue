@@ -35,7 +35,7 @@
                   <el-form-item  label="设备号" >
                     <el-select v-model="form.deviceId" placeholder="请选择设备号">
                       <!--eslint-disable-next-line-->
-                      <el-option v-for="i in userlist" :label="i.userName" :value="i.userId"></el-option>
+                      <el-option v-for="i in userlist" :label="i.userName" :value="i.deviceId"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="购入数量">
@@ -100,11 +100,27 @@ export default {
       userlist:[],
       devicelist:[],
       changeBtn:'返回',
+      update:true,
       flagOftext:true,
       flagOfstartCreate:false,
     }
   },
   methods:{
+
+    submitForm() {
+      this.request.post('/purchase/form/', this.form).then(res=>{
+        if(res.code=="1"){
+          this.$message.success("提交成功！")
+        }
+        else{
+          this.$message.error("提交失败！")
+        }
+        this.request.get("/purchase/list").then(res => {
+          this.tabledatas = res.data
+        })
+      })
+
+    },
 
     votePageApper(id){
       this.$router.push({

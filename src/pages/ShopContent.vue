@@ -34,7 +34,6 @@
 
                     <el-form ref="form" :model="form" label-width="100px">
 
-
                       <el-form-item  label="经办人员" >
                         <el-select v-model="form.userId" placeholder="请选择经办人员">
                           <!--eslint-disable-next-line-->
@@ -118,8 +117,10 @@ export default {
         deviceId:'',
         num:'',
         cost:'',
+        recordId:this.record,
       },
       changeBtn:'返回',
+      update:true,
       flagOftext:true,
       flagOfstartCreate:false,
       tableData: [],
