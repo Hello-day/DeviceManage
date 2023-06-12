@@ -111,7 +111,7 @@ export default {
     return {
       form: {
         deviceName:'',
-        fund:''
+        funds:''
       },
 
       changeBtn:'返回',
@@ -171,7 +171,7 @@ export default {
       this.$router.go(-1)
     },
     submitForm() {
-      this.request.post('/device/form/', this.form).then(res=>{
+      this.request.post('/device/new', this.form).then(res=>{
         if(res.code=="1"){
           this.$message.success("提交成功！")
         }

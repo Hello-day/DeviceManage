@@ -56,8 +56,8 @@
           </div>
 
           <!--eslint-disable-next-line-->
-          <transition-group name="list-complete" tag="p" appear v-for="i in myPurchase" v-show="flagOftext"  v-if="update">
-            <div class="textArea" :key="i" >
+          <transition-group name="list-complete" tag="p" appear v-for="i in myPurchase" v-show="flagOftext"  >
+            <div v-if="update" class="textArea" :key="i" >
                 <!--    现有投票-->
                 <div class="voteNowHave" @click="votePageApper(i.recordId)">
                   <div>
@@ -120,7 +120,7 @@ export default {
           this.tabledatas = res.data
         })
       })
-
+      window.location.reload()  //页面刷新
     },
 
     votePageApper(id){
@@ -151,15 +151,6 @@ export default {
       })
     },
 
-    startCreate(){
-      var n = this.changeBtn;
-      this.changeBtn = this.$refs.btn1.$el.innerText;
-      //this.$refs.btn1是取上面id为btn1的元素（说id是不严谨的）
-      this.$refs.btn1.$el.innerText = n;
-      this.flagOftext = !this.flagOftext;
-      this.flagOfstartCreate = !this.flagOfstartCreate;
-      // this.request.get("/channel/list")
-    },
 
     newFix(){
       var n = this.changeBtn;
@@ -172,6 +163,8 @@ export default {
       this.$nextTick(() => {
         this.update = true
       })
+
+
     },
   },
   created() {
