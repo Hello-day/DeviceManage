@@ -40,7 +40,7 @@
                       <el-form-item  label="设备名" >
                         <el-select v-model="form.deviceId" placeholder="请选择设备名">
                           <!--eslint-disable-next-line-->
-                          <el-option v-for="i in devicelist" :label="i.name" :value="i.deviceId"></el-option>
+                          <el-option v-for="i in devicelist":label="`${i.deviceName} 现有数量:${i.quantity}`" :value="i.deviceId"></el-option>
                         </el-select>
                       </el-form-item>
 

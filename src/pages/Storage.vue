@@ -7,6 +7,10 @@
                 <span style="flex: 9;font-size: 18px;font-weight: bold">
                 库存管理
                 </span>
+        <span class= "IconArea" style="flex: 2;font-size: 18px;font-weight: bold;color: #4E5C72;justify-content: end;display: flex">
+                   <el-button round size="medium"  @click="newFix()"  ref='btn1'>新增库存设备</el-button>
+        </span>
+
       </div>
     </div>
 
@@ -16,8 +20,36 @@
         <div class="voteChannel"  style="overflow:auto">
           <div class="textArea" >
             <div class="voteChannel">
+              <div v-show="flagOfstartCreate" class="voteArea" :key="100">
+                <div class="headOfvoteData">
+                  <span >新增库存记录</span>
+                </div>
+
+                <div class="voteCreate">
+                  <!--    现有投票-->
+                  <div  class="voteEdit" >
+
+                    <el-form ref="form" :model="form" label-width="100px">
+
+                      <el-form-item label="设备名">
+                        <el-input v-model="form.deviceName"></el-input>
+                      </el-form-item>
+                      <el-form-item label="单件价格">
+                        <el-input v-model="form.fund"></el-input>
+                      </el-form-item>
+
+                      <el-form-item>
+                        <el-button type="primary" @click="submitForm()">立即创建</el-button>
+                        <el-button>取消</el-button>
+                      </el-form-item>
+
+                    </el-form>
+
+                  </div>
+                </div>
+              </div>
               <!--    现有投票-->
-              <div class="voteNowHave" >
+              <div class="voteNowHave" v-show="flagOftext" >
                 <template >
                   <el-table
                       :data="tabledatas"
@@ -77,11 +109,33 @@ export default {
   name: "Storage",
   data(){
     return {
+      form: {
+        deviceName:'',
+        fund:''
+      },
+
+      changeBtn:'返回',
+      flagOftext:true,
+      flagOfstartCreate:false,
+      update:true,
+
       tabledatas: [],
     }
   },
   methods:{
 
+    newFix(){
+      var n = this.changeBtn;
+      this.changeBtn = this.$refs.btn1.$el.innerText;
+      this.$refs.btn1.$el.innerText = n;
+      this.flagOftext = !this.flagOftext;
+      this.flagOfstartCreate = !this.flagOfstartCreate;
+      //刷新数据
+      this.update = false;
+      this.$nextTick(() => {
+        this.update = true
+      })
+    },
     table(){
       this.request.get("/device/list").then(res=>{
         this.tabledatas=res.data
@@ -102,22 +156,6 @@ export default {
 
     },
 
-    delete(i){   //删除
-      // this.myVote.splice(i-1, 1);  //从数组中删除，使这项不显示，应该放到删除成功下面，此处为测试用
-      this.request.get('/vote/delete/'+ i.id).then(res=>{  //路由没配
-        if(res.code=="1"){
-          this.$message.success("删除成功！")
-          // this.myVote.splice(i-1, 1);
-          this.request.get("/vote/mine").then(res => {
-            this.myVote = res.data
-          })
-        }
-        else{
-          this.$message.error("删除失败！")
-        }
-      })
-
-    },
 
     handleClick(row) {
       this.$router.push({
@@ -132,11 +170,23 @@ export default {
     goBack() {
       this.$router.go(-1)
     },
+    submitForm() {
+      this.request.post('/device/form/', this.form).then(res=>{
+        if(res.code=="1"){
+          this.$message.success("提交成功！")
+        }
+        else{
+          this.$message.error("提交失败！")
+        }
+        this.request.get("/device/list").then(res => {
+          this.tabledatas = res.data
+        })
+      })
 
-
+    },
   },
-  created() {
 
+  created() {
     this.table()
   }
 }
@@ -182,6 +232,29 @@ export default {
   transform: scale(1.01,1.01);
 }
 
+.voteArea{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  height: 350px;
+  background-color: rgb(0,0,0,0);
+  margin-left: 30px;
+  margin-top: 100px;
+  position: relative;
+}
+
+.headOfvoteData{
+  height: 100%;
+  width: 100%;
+  flex: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  font-weight: bold;
+  font-size: 16px;
+  justify-content: center;
+}
 
 
 .liList li{

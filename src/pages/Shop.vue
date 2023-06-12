@@ -18,7 +18,7 @@
 
     <div class="visualizationOfHome">
       <div class="viewOfvoteData">
-        <div class="voteChannel"  style="overflow:auto" >
+        <div class="voteChannel"  style="overflow:auto" v-if="update" >
           <div v-show="flagOfstartCreate" class="voteArea" :key="100">
             <div class="headOfvoteData">
               <span >新增购物订单</span>
@@ -42,7 +42,7 @@
                     <el-input v-model="form.quantity"></el-input>
                   </el-form-item>
                   <el-form-item label="单件经费">
-                    <el-input v-model="form.fund"></el-input>
+                    <el-input v-model="form.funds"></el-input>
                   </el-form-item>
 
                   <el-form-item>
@@ -56,7 +56,7 @@
           </div>
 
           <!--eslint-disable-next-line-->
-          <transition-group name="list-complete" tag="p" appear v-for="i in myPurchase" v-show="flagOftext" >
+          <transition-group name="list-complete" tag="p" appear v-for="i in myPurchase" v-show="flagOftext"  v-if="update">
             <div class="textArea" :key="i" >
                 <!--    现有投票-->
                 <div class="voteNowHave" @click="votePageApper(i.recordId)">
@@ -93,7 +93,7 @@ export default {
         userId:'',
         deviceId:'',
         quantity:'',
-        fund:'',
+        funds:'',
       },
 
       myPurchase:[],
@@ -108,7 +108,8 @@ export default {
   methods:{
 
     submitForm() {
-      this.request.post('/purchase/form/', this.form).then(res=>{
+
+      this.request.post('/purchase/create/', this.form).then(res=>{
         if(res.code=="1"){
           this.$message.success("提交成功！")
         }

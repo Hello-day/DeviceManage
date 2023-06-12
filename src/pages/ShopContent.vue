@@ -25,7 +25,7 @@
 
               <div v-show="flagOfstartCreate" class="voteArea" :key="100">
                 <div class="headOfvoteData">
-                  <span >新增购入设备记录</span>
+                  <span >新增购入记录</span>
                 </div>
 
                 <div class="voteCreate">
@@ -47,10 +47,10 @@
                         </el-select>
                       </el-form-item>
                       <el-form-item label="购入数量">
-                        <el-input v-model="form.num"></el-input>
+                        <el-input v-model="form.quantity"></el-input>
                       </el-form-item>
                       <el-form-item label="单件经费">
-                        <el-input v-model="form.cost"></el-input>
+                        <el-input v-model="form.funds"></el-input>
                       </el-form-item>
 
                       <el-form-item>
@@ -65,7 +65,7 @@
               </div>
 
               <!--    现有投票-->
-              <div class="voteNowHave" v-show="flagOftext" >
+              <div class="voteNowHave" v-show="flagOftext" v-if="update">
                 <template >
                   <el-table
                       :data="tableData"
@@ -112,13 +112,15 @@ export default {
   name: "ShopContent",
   data(){
     return {
+
       form: {
         userId:'',
         deviceId:'',
         quantity:'',
-        fund:'',
-        recordId:this.record,
+        funds:'',
+        recordId:this.$route.query.record,
       },
+
       changeBtn:'返回',
       update:true,
       flagOftext:true,
@@ -131,7 +133,7 @@ export default {
   },
   methods:{
     submitForm() {
-      this.request.post('/purchase/detail/form', this.form).then(res=>{
+      this.request.post('/purchase/newgoods', this.form).then(res=>{
         if(res.code=="1"){
           this.$message.success("提交成功！")
         }
