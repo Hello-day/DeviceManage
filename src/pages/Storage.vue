@@ -34,8 +34,8 @@
                       <el-form-item label="设备名">
                         <el-input v-model="form.deviceName"></el-input>
                       </el-form-item>
-                      <el-form-item label="单件价格">
-                        <el-input v-model="form.funds"></el-input>
+                      <el-form-item label="详细描述">
+                        <el-input v-model="form.description"></el-input>
                       </el-form-item>
 
                       <el-form-item>
@@ -84,7 +84,16 @@
                           <slot>{{ scope.row.description }}</slot>
                           <el-button slot="reference">查看详情</el-button>
                         </el-popover>
-
+                        <el-popconfirm
+                            confirm-button-text='好的'
+                            cancel-button-text='不用了'
+                            @onConfirm="delect(scope.row.deviceId,scope.$index)"
+                            icon="el-icon-info"
+                            icon-color="red"
+                            title="确定删除该设备吗？"
+                        >
+                          <el-button slot="reference">删除</el-button>
+                        </el-popconfirm>
                         <el-button  type="text"
                                     size="small" style="color:#e98484; margin-left:8px;"  @click="delect(scope.row.deviceId,scope.$index)">报废</el-button>
                       </template>
@@ -111,7 +120,7 @@ export default {
     return {
       form: {
         deviceName:'',
-        funds:''
+        description:''
       },
 
       changeBtn:'返回',

@@ -25,7 +25,7 @@
                 <!--            投票项目数-->
                 <div class="dataBlocks" style="background-color: #FAECD8">
                     <div style="flex: 1;width: 100%;height: 100%;display: flex;align-items: end;padding-left: 10px;font-weight: bold">
-                            <span>购入设备数</span>
+                            <span>设备型号数</span>
                     </div>
                     <div style="font-family: PingFangSC-Semibold,PingFang SC;font-size: 25px;font-weight: bold; flex: 2;width: 100%;height: 100%;display: flex;align-items: center;padding-left: 10px">
                         <span>{{Item}}部</span>
@@ -37,7 +37,7 @@
                         <span>库存设备数</span>
                     </div>
                     <div style="font-family: PingFangSC-Semibold,PingFang SC;font-size: 25px;font-weight: bold; flex: 2;width: 100%;height: 100%;display: flex;align-items: center;padding-left: 10px">
-                        <span>{{Voted}}部</span>
+                        <span>{{dNum}}部</span>
                     </div>
                 </div>
 
@@ -127,6 +127,7 @@ export default {
     return {
       channel: [],
       count: 0,
+      dNum:'',
       Num: '',
       Item: '',
       Voted: '',
@@ -157,6 +158,13 @@ export default {
       this.request.get("/device/cnt").then(res => {
         if (res.code == 1) {
           this.Item = res.data
+        } else {
+          prompt(res.msg)
+        }
+      })
+      this.request.get("/device/num").then(res => {
+        if (res.code == 1) {
+          this.dNum = res.data
         } else {
           prompt(res.msg)
         }
