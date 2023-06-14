@@ -35,7 +35,7 @@
                   <el-form-item  label="设备号" >
                     <el-select v-model="form.deviceId" placeholder="请选择设备号">
                       <!--eslint-disable-next-line-->
-                      <el-option v-for="i in devicelist" :label="i.userName" :value="i.deviceId"></el-option>
+                      <el-option v-for="i in devicelist" :label="i.deviceName" :value="i.deviceId"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="购入数量">

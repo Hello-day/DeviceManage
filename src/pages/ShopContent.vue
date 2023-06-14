@@ -72,8 +72,8 @@
                       stripe
                       style="width: 100% ;margin-top: 30px;overflow-y:auto">
                     <el-table-column
-                        prop="deviceId"
-                        label="设备号"
+                        prop="deviceName"
+                        label="设备名"
                         width="180">
                     </el-table-column>
                     <el-table-column
