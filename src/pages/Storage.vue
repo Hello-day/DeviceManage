@@ -92,7 +92,7 @@
                             icon-color="red"
                             title="确定删除该设备吗？"
                         >
-                          <el-button slot="reference">删除</el-button>
+                   
                         </el-popconfirm>
                         <el-button  type="text"
                                     size="small" style="color:#e98484; margin-left:8px;"  @click="delect(scope.row.deviceId,scope.$index)">报废</el-button>
